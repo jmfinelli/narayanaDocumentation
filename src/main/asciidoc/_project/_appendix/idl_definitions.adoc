@@ -1,8 +1,7 @@
 == IDL definitions
 
-Because of differences between ORBs, and errors in certain ORBs, the idl available with {productName}; may differ from
-that shown below. You should always inspect the idl files prior to implementation to determine what, if any, differences
-exist.
+Because of differences between ORBs, and errors in certain ORBs, the idl available with {productName}; may differ from that shown below.
+You should always inspect the idl files prior to implementation to determine what, if any, differences exist.
 
 .`CosTransactions.idl`
 ====
