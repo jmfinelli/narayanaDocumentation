@@ -127,11 +127,11 @@ I used IntelliJ to do so but it is really up to you how you want to compare them
 To correct the output from DocBookRx, I used some RegEx patterns in IntelliJ to replace some mistakes it makes:
 ```
 // Looks for things like [class]`class_name`
-\[{1}[a-zA-Z]+\]{1}`{2}([a-zA-Z_ \.:]+?)`{2}
+\[{1}[a-zA-Z]+\]{1}`{2}([a-zA-Z_ \-.:]+?)`{2}
 `$1`
 
 // Looks for things like [class]_class_name_
-\[{1}[a-zA-Z]+\]{1}_{1}([a-zA-Z_ \.:]+?)_{1}
+\[{1}[a-zA-Z]+\]{1}_{1}([a-zA-Z_ \-.:]+?)_{1}
 _$1_
 
 // Looks for things like `class_name` ,
