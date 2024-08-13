@@ -1974,7 +1974,7 @@ This also describes what are {parentProduct} packages that need to be used in or
 The code below is a simplified view of the BankClient.java program.
 ====
 
-Only the transfer operation is illustrated; other operations manage transactions in the same way. (see for details the src/com/arjuna/demo/jta/localbank/BankClient.java)
+Only the transfer operation is illustrated; other operations manage transactions in the same way. (see for details the `src/com/arjuna/demo/jta/localbank/BankClient.java`)
 
 [source,Java]
 ----
@@ -2167,11 +2167,11 @@ private Account _account;
 
 Full source code for the banking application with JTA is included to provide you with a starting point for experimentation.
 
-* src/com/arjuna/demo/jta/localbank/BankClient.java
-* src/com/arjuna/demo/jta/localbank/Bank.java">Bank.java
-* src/com/arjuna/demo/jta/localbank/Account.java">Account.java
-* src/com/arjuna/demo/jta/localbank/AccountResource.java
-* src/com/arjuna/demo/jta/localbank/NotExistingAccount.java">NotExistingAccount.java
+* `src/com/arjuna/demo/jta/localbank/BankClient.java`
+* `src/com/arjuna/demo/jta/localbank/Bank.java` -> `Bank.java`
+* `src/com/arjuna/demo/jta/localbank/Account.java` -> `Account.java`
+* `src/com/arjuna/demo/jta/localbank/AccountResource.java`
+* `src/com/arjuna/demo/jta/localbank/NotExistingAccount.java` -> `NotExistingAccount.java`
 
 ===== Running The Banking application with JTS
 
@@ -2531,59 +2531,52 @@ Only the transfer operation is illustrated; other operations manage transactions
 (see `../src/com/arjuna/demo/jts/localbank/BankClient.java` for details)
 ====
 
-____
 [source,java]
 ----
 package com.arjuna.demo.jta.localbank;
 import com.arjuna.ats.jts.OTSManager;
 import com.arjuna.ats.internal.jts.ORBManager;
 
-public class BankClient
-{
-   private Bank _bank; //Initialised on BankClient initializations
+public class BankClient {
+    private Bank _bank; //Initialised on BankClient initializations
    ....
-   // This operation is used to make a transfer from an account to another account
-   private void makeTransfer()
-   {
-     System.out.print("Take money from : ");
-     String name_supplier = input();
 
-     System.out.print("Put money to : ");
-     String name_consumer = input();
+    // This operation is used to make a transfer from an account to another account
+    private void makeTransfer() {
+        System.out.print("Take money from : ");
+        String name_supplier = input();
 
-     System.out.print("Transfert amount : ");
-     String amount = input();
+        System.out.print("Put money to : ");
+        String name_consumer = input();
 
-     float famount = 0;
-     try
-      {
-        famount = new Float( amount ).floatValue();
-      }
-     catch ( java.lang.Exception ex )
-      {
-        System.out.println("Invalid float number, abort operation...");
-        return;
-      }
+        System.out.print("Transfert amount : ");
+        String amount = input();
 
-     try
-      {
-       //the following instruction asks a specific {parentProduct} class to obtain a Current instance
-       Current current = OTSManager.get_current(); 
-       System.out.println("Beginning a User transaction to get balance");
-       current.begin();
+        float famount = 0;
+        try {
+            famount = new Float(amount).floatValue();
+        } catch (java.lang.Exception ex) {
+            System.out.println("Invalid float number, abort operation...");
+            return;
+        }
 
-       Account supplier = _bank.get_account( name_supplier );
-       Account consumer = _bank.get_account( name_consumer );
-       supplier.debit( famount );
-       consumer.credit( famount );
+        try {
+            //the following instruction asks a specific {parentProduct} class to obtain a Current instance
+            Current current = OTSManager.get_current();
+            System.out.println("Beginning a User transaction to get balance");
+            current.begin();
 
-       current.commit( );
-      }
-     catch (Exception e)
-      {
-       System.err.println("ERROR - "+e);
-      }
-   }
+            Account supplier = _bank.get_account(name_supplier);
+            Account consumer = _bank.get_account(name_consumer);
+            supplier.debit(famount);
+            consumer.credit(famount);
+
+            current.commit();
+        } catch (Exception e) {
+            System.err.println("ERROR - " + e);
+        }
+    }
+}
 ----
 
 Since JTS is used invocations against an ORB are needed, such ORB and Object Adapter instantiation and initialisation.
@@ -2591,61 +2584,56 @@ To ensure a better portability, the ORB Portability API provides a set of method
 
 [source,Java]
 ----
-public static void main( String [] args )
-{  
+public static void main(String[] args) {
     try {
-     myORB = ORB.getInstance("test");// Create an ORB instance
-     myOA = OA.getRootOA(myORB); //Obtain the Root POA
-     myORB.initORB(args, null); //Initialise the ORB
-     myOA.initOA(); //Initialise the POA
+        myORB = ORB.getInstance("test");// Create an ORB instance
+        myOA = OA.getRootOA(myORB); //Obtain the Root POA
+        myORB.initORB(args, null); //Initialise the ORB
+        myOA.initOA(); //Initialise the POA
 
-     // The ORBManager is a class provided by {parentProduct} to facilitate the association
-     // of the ORB/POA with the transaction service
-     ORBManager.setORB(myORB);
-     ORBManager.setPOA(myOA);
+        // The ORBManager is a class provided by {parentProduct} to facilitate the association
+        // of the ORB/POA with the transaction service
+        ORBManager.setORB(myORB);
+        ORBManager.setPOA(myOA);
      ....
-   }
-   catch(Exception e)
-   {
-     e.printStackTrace(System.err);
-   }
+    } catch (Exception e) {
+        e.printStackTrace(System.err);
+    }
 }
 ----
-____
 
 The Bank object has mainly two operations: creating an account, which is added in the account list, and returning an Account object.
 No transactional instruction is performed by the Bank object
 
-____
 [source,Java]
 ----
 package com.arjuna.demo.jta.localbank;
+
 public class Bank {
-   private java.util.Hashtable _accounts;
+    private java.util.Hashtable _accounts;
 
-   public Bank()
-   {
-     _accounts = new java.util.Hashtable();
-   }
+    public Bank()
+    {
+        _accounts = new java.util.Hashtable();
+    }
 
-   public Account create_account( String name )
-   {
-     Account acc = new Account(name);
-     _accounts.put( name, acc );
-      return acc;
-   }
+    public Account create_account( String name )
+    {
+        Account acc = new Account(name);
+        _accounts.put( name, acc );
+        return acc;
+    }
 
-   public Account get_account(String name)
-   throws NotExistingAccount
-   {
-     Account acc = ( Account ) _accounts.get( name );
-     if ( acc == null )
-       throw new NotExistingAccount("The Account requested does not exist");
-     return acc;
-   }
+    public Account get_account(String name)
+            throws NotExistingAccount
+    {
+        Account acc = ( Account ) _accounts.get( name );
+        if ( acc == null )
+            throw new NotExistingAccount("The Account requested does not exist");
+        return acc;
+    }
 }
 ----
-____
 
 The Account object provides mainly three methods balance, credit and withdraw.
 However, in order to provide the transactional behaviour, rather than to modify the current account directly (according to credit or withdraw) this task is delegated to an AccountResource object that is able, according to the transaction outcome, to set the account value either to its initial state or its final state.
@@ -2653,140 +2641,114 @@ However, in order to provide the transactional behaviour, rather than to modify 
 The AccountResource object is in fact an object that implements the org.omg.CosTransactions.Resource, then able to participate to the transaction commitment.
 For this aim, the Account object has to register the AccountResource object as a participant, after having obtaining the reference of the org.omg.CosTransactions.Coordinator object , itself obtained via the org.omg.CosTransactions.Control object
 
-____
 [source,Java]
 ----
 package com.arjuna.demo.jta.localbank;
 
+public class Account {
+    float _balance;
+    AccountResource accRes = null;
 
-public class Account
-{
-   float _balance;
-   AccountResource accRes = null;
+    public Account(String name) {
+        _name = name;
+        _balance = 0;
+    }
 
-   public Account(String name )
-   {
-     _name = name;
-     _balance = 0;
-   }
+    public float balance() {
+        return getResource().balance();
+    }
 
-   public float balance()
-   {
-     return getResource().balance();;
-   }
+    public void credit(float value) {
+        getResource().credit(value);
+    }
 
-   public void credit( float value )
-   {
-     getResource().credit( value );
-   }
-
-   public void debit( float value )
-   {
-     getResource().debit( value );
-   }
+    public void debit(float value) {
+        getResource().debit(value);
+    }
 
 
-   public AccountResource getResource()
-    {
-    try {
-    if (accRes == null) {
-         accRes = new AccountResource(this, _name) ;
-         Resource ref = org.omg.CosTransactions.ResourceHelper.narrow(ORBManager.getPOA().corbaReference(accRes));
-         // Note above the possibilities provided by the ORBManager to access the POA then to obtain
-         // the CORBA reference of the created AccountResource object
+    public AccountResource getResource() {
+        try {
+            if (accRes == null) {
+                accRes = new AccountResource(this, _name);
+                Resource ref = org.omg.CosTransactions.ResourceHelper.narrow(ORBManager.getPOA().corbaReference(accRes));
+                // Note above the possibilities provided by the ORBManager to access the POA then to obtain
+                // the CORBA reference of the created AccountResource object
 
-         RecoveryCoordinator recoverycoordinator = OTSManager.get_current().get_control().
-                                               get_coordinator().register_resource(ref);
-                        
+                RecoveryCoordinator recoverycoordinator = OTSManager.get_current().get_control().
+                        get_coordinator().register_resource(ref);
+
+            }
+        } catch (Exception e) {
+            System.err.println("ERROR - " + e);
         }
-      }
-      catch (Exception e)
-      {
-        System.err.println("ERROR - "+e);
-      }
 
-      return accRes;
-   }
-   ...
+        return accRes;
+    }
+    ...
 }
 ----
-____
 
 To be considered as a org.omg.CosTransactions.Resource, the AccountResource class shall extends the class org.omg.CosTransactions.ResourcePOA generated by the CORBA IDL compiler.
 The AccountRessource provides similar methods as the Account class (credit, withdraw and balance) with the appropriate methods to participate to the 2PC protocol.
 The following portion of code describes how the methods prepare, commit and rollback are implemented.
 
-____
+
 [source,Java]
 ----
-public class AccountResource extends org.omg.CosTransactions.ResourcePOA
-{
-   public AccountResource(Account account, String name )
-   {
-     _name = name;
-     _account = account;
-     _initial_balance = account._balance;
-     _current_balance = _initial_balance;
-   }
-
-   public float balance()
-   {
-     return _current_balance;
-   }
-
-   public void credit( float value )
-   {
-     _current_balance += value;
-   }
-
-   public void debit( float value )
-   {
-     _current_balance -= value;
-   }
-
-   public org.omg.CosTransactions.Vote prepare()
-       throws org.omg.CosTransactions.HeuristicMixed, org.omg.CosTransactions.HeuristicHazard
-    {
-      if ( _initial_balance == _current_balance )
-       return org.omg.CosTransactions.Vote.VoteReadOnly;
-     if ( _current_balance < 0 )
-       return org.omg.CosTransactions.Vote.VoteRollback;
-     return org.omg.CosTransactions.Vote.VoteCommit;
+public class AccountResource extends org.omg.CosTransactions.ResourcePOA {
+    public AccountResource(Account account, String name) {
+        _name = name;
+        _account = account;
+        _initial_balance = account._balance;
+        _current_balance = _initial_balance;
     }
 
-   public void rollback()
-     throws org.omg.CosTransactions.HeuristicCommit, org.omg.CosTransactions.HeuristicMixed,
-                            org.omg.CosTransactions.HeuristicHazard
-   {
-     //Nothing to do
-   }
+    public float balance() {
+        return _current_balance;
+    }
 
-   public void commit()
-     throws org.omg.CosTransactions.NotPrepared, org.omg.CosTransactions.HeuristicRollback,
-                      org.omg.CosTransactions.HeuristicMixed, org.omg.CosTransactions.HeuristicHazard
-   {
-      _account._balance = _current_balance;
-   }
+    public void credit(float value) {
+        _current_balance += value;
+    }
 
-   public void commit_one_phase()
-     throws org.omg.CosTransactions.HeuristicHazard
-   {
-     _account._balance = _current_balance;
-   }
+    public void debit(float value) {
+        _current_balance -= value;
+    }
 
-   .....
+    public org.omg.CosTransactions.Vote prepare()
+            throws org.omg.CosTransactions.HeuristicMixed, org.omg.CosTransactions.HeuristicHazard {
+        if (_initial_balance == _current_balance)
+            return org.omg.CosTransactions.Vote.VoteReadOnly;
+        if (_current_balance < 0)
+            return org.omg.CosTransactions.Vote.VoteRollback;
+        return org.omg.CosTransactions.Vote.VoteCommit;
+    }
+
+    public void rollback()
+            throws org.omg.CosTransactions.HeuristicCommit, org.omg.CosTransactions.HeuristicMixed,
+            org.omg.CosTransactions.HeuristicHazard {
+        //Nothing to do
+    }
+
+    public void commit()
+            throws org.omg.CosTransactions.NotPrepared, org.omg.CosTransactions.HeuristicRollback,
+            org.omg.CosTransactions.HeuristicMixed, org.omg.CosTransactions.HeuristicHazard {
+        _account._balance = _current_balance;
+    }
+
+    public void commit_one_phase()
+            throws org.omg.CosTransactions.HeuristicHazard {
+        _account._balance = _current_balance;
+    }
+
+    .....
+
+    private float _initial_balance;
+    private float _current_balance;
+    private Account _account;
+}
 ----
-
-[source,Java]
-----
-   private float _initial_balance;
-   private float _current_balance;
-   private Account _account;
-
-   }
- 
-----
-____
 
 *Sample Application Source Code*
 
@@ -2813,7 +2775,7 @@ In the following Bank.idl file operations defined in the Account interface have 
 [source,Java]
 ----
 module arjuna {
-   module demo {
+    module demo {
      module jts {
       module explicitremotebank {
 
@@ -2836,7 +2798,7 @@ module arjuna {
        };
       };
      };
-   };
+};
    
 ----
 
@@ -2845,47 +2807,45 @@ This also describes what are {parentProduct} packages that need to be used in or
 
 [NOTE]
 ====
-The code below is a simplified view of the BankClient.java program.
+The code below is a simplified view of the `BankClient.java` program.
+Only the transfer operation is illustrated; other operations manage transactions in the same way.
+(see for details the `src/com/arjuna/demo/jts/explicitremotebank/BankClient.java`)
 ====
-
-Only the transfer operation is illustrated; other operations manage transactions in the same way. (see for details the src/com/arjuna/demo/jts/explicitremotebank/BankClient.java)
 
 [source,Java]
 ----
 package com.arjuna.demo.jta.remotebank;
 import com.arjuna.ats.jts.OTSManager;
-public class BankClient
-{
-   private Bank _bank;
-   ....
-   // This operation is used to make a transfer
-   //from an account to another account
-   private void makeTransfer()
-   {
-     //get the name of the supplier(name_supplier) and
-     // the consumer(name_consumer)
-     // get the amount to transfer (famount)
-     ...
-     try
-      {
-       //the following instruction asks a specific
-       //{parentProduct} class to obtain a Current instance
-       Current current = OTSManager.get_current(); 
-       System.out.println("Beginning a User transaction to get balance");
-       current.begin();
 
-       Account supplier = _bank.get_account( name_supplier );
-       Account consumer = _bank.get_account( name_consumer );
-       supplier.debit( current.get_control(), famount );
-       //The Control is explicitly propagated
-       consumer.credit( current.get_control(), famount );
-       current.commit( );
-      }
-     catch (Exception e)
-      {
-       ...
-      }
-   }
+public class BankClient {
+    private Bank _bank;
+    ....
+
+    // This operation is used to make a transfer
+    //from an account to another account
+    private void makeTransfer() {
+        //get the name of the supplier(name_supplier) and
+        // the consumer(name_consumer)
+        // get the amount to transfer (famount)
+        ...
+        try {
+            //the following instruction asks a specific
+            //{parentProduct} class to obtain a Current instance
+            Current current = OTSManager.get_current();
+            System.out.println("Beginning a User transaction to get balance");
+            current.begin();
+
+            Account supplier = _bank.get_account(name_supplier);
+            Account consumer = _bank.get_account(name_consumer);
+            supplier.debit(current.get_control(), famount);
+            //The Control is explicitly propagated
+            consumer.credit(current.get_control(), famount);
+            current.commit();
+        } catch (Exception e) {
+            ...
+        }
+    }
+}
 ----
 
 Since JTS is used invocations against an ORB are needed, such ORB and Object Adapter instantiation and initialisation.
@@ -2893,25 +2853,21 @@ To ensure a better portability, the ORB Portability API provides a set of method
 
 [source,Java]
 ----
-public static void main( String [] args )
-{
+public static void main(String[] args) {
   ....
-  myORB = ORB.getInstance("test");// Create an ORB instance
-  myORB.initORB(args, null); //Initialise the ORB
-  
-  org.omg.CORBA.Object obj = null;
-  try
-  {
-     //Read the reference string from a file then convert to Object
-     ....
-      obj = myORB.orb().string_to_object(stringTarget);
-  }
-  catch ( java.io.IOException ex )
-  {
-     ...
-  }
-  Bank bank = BankHelper.narrow(obj);
-   ....
+    myORB = ORB.getInstance("test");// Create an ORB instance
+    myORB.initORB(args, null); //Initialise the ORB
+
+    org.omg.CORBA.Object obj = null;
+    try {
+        //Read the reference string from a file then convert to Object
+        ....
+        obj = myORB.orb().string_to_object(stringTarget);
+    } catch (java.io.IOException ex) {
+        ...
+    }
+    Bank bank = BankHelper.narrow(obj);
+    ....
 }
 ----
 
@@ -2922,31 +2878,29 @@ The following lines decribe the implementation of the Bank CORBA object
 [source,Java]
 ----
 public class BankImpl extends BankPOA {
-     public BankImpl(OA oa)
-     {
-       _accounts = new java.util.Hashtable();
-       _oa = oa;
-     }
+    public BankImpl(OA oa) {
+        _accounts = new java.util.Hashtable();
+        _oa = oa;
+    }
 
-     public Account create_account( String name )
-     {
-         AccountImpl acc = new AccountImpl(name);
-         _accounts.put( name, acc );
-          return com.arjuna.demo.jts.remotebank.AccountHelper.
-               narrow(_oa.corbaReference(acc));
-     }
+    public Account create_account(String name) {
+        AccountImpl acc = new AccountImpl(name);
+        _accounts.put(name, acc);
+        return com.arjuna.demo.jts.remotebank.AccountHelper.
+                narrow(_oa.corbaReference(acc));
+    }
 
-     public Account get_account(String name)
-          throws NotExistingAccount
-     {
-      AccountImpl acc = ( AccountImpl ) _accounts.get( name );
-      if ( acc == null )
-       throw new NotExistingAccount("The Account requested does not exist");
-      return com.arjuna.demo.jts.remotebank.AccountHelper.
-           narrow(_oa.corbaReference(acc));
-     }
-     private java.util.Hashtable _accounts;// Accounts created by the Bank
-     private OA _oa;
+    public Account get_account(String name)
+            throws NotExistingAccount {
+        AccountImpl acc = (AccountImpl) _accounts.get(name);
+        if (acc == null)
+            throw new NotExistingAccount("The Account requested does not exist");
+        return com.arjuna.demo.jts.remotebank.AccountHelper.
+                narrow(_oa.corbaReference(acc));
+    }
+
+    private java.util.Hashtable _accounts;// Accounts created by the Bank
+    private OA _oa;
 }
 ----
 
@@ -2956,29 +2910,27 @@ The following lines describe how the Bank server is implemented.
 
 [source,Java]
 ----
-public class BankServer
-{
-      public static void main( String [] args )
-      {
-       ORB myORB = null;
-       RootOA myOA = null;
-       try
-       {
-        myORB = ORB.getInstance("ServerSide");
-        myOA = OA.getRootOA(myORB);
-        myORB.initORB(args, null);
-        myOA.initOA();
-        ....
-        BankImpl bank = new BankImpl(myOA);
+public class BankServer {
+    public static void main(String[] args) {
+        ORB myORB = null;
+        RootOA myOA = null;
+        try {
+            myORB = ORB.getInstance("ServerSide");
+            myOA = OA.getRootOA(myORB);
+            myORB.initORB(args, null);
+            myOA.initOA();
+            ....
+            BankImpl bank = new BankImpl(myOA);
 
-        String reference = myORB.orb().
-             object_to_string(myOA.corbaReference(bank));
-        //Store the Object reference in the file
-        ...
+            String reference = myORB.orb().
+                    object_to_string(myOA.corbaReference(bank));
+            //Store the Object reference in the file
+            ...
 
-        System.out.println("The bank server is now ready...");
-        myOA.run();
-      }
+            System.out.println("The bank server is now ready...");
+            myOA.run();
+        }
+    }
 }
 ----
 
@@ -2995,52 +2947,44 @@ package com.arjuna.demo.jta.remotebank;
 import org.omg.CosTransactions.*;
 import ....
 
-public class AccountImpl extends AccountPOA
-{
-   float _balance;
-   AccountResource accRes = null;
+public class AccountImpl extends AccountPOA {
+    float _balance;
+    AccountResource accRes = null;
 
-   public Account(String name )
-   {
-     _name = name;
-     _balance = 0;
-   }
+    public Account(String name) {
+        _name = name;
+        _balance = 0;
+    }
 
-   public float balance(Control ctrl)
-   {
-     return getResource(ctrl).balance();;
-   }
+    public float balance(Control ctrl) {
+        return getResource(ctrl).balance();
+    }
 
-   public void credit(Control ctrl, float value )
-   {
-     getResource(ctrl).credit( value );
-   }
+    public void credit(Control ctrl, float value) {
+        getResource(ctrl).credit(value);
+    }
 
-   public void debit(Control ctrl, float value )
-   {
-     getResource(ctrl).debit( value );
-   }
+    public void debit(Control ctrl, float value) {
+        getResource(ctrl).debit(value);
+    }
 
-   public AccountResource getResource(Control control)
-   {
-      try
-      {
-         if (accRes == null) {
-            accRes = new AccountResource(this, _name) ;
-           
-           //The invocation on the ORB illustrates the fact that the same
-           //ORB instance created by the Bank Server is returned.
-           ref = org.omg.CosTransactions.ResourceHelper.
-              narrow(OA.getRootOA(ORB.getInstance("ServerSide")).
-              corbaReference(accRes));
-           RecoveryCoordinator recoverycoordinator =
-              control.get_coordinator().register_resource(ref);
-         }
-      }
-      catch (Exception e){...}
-      return accRes;
-       }
-   ...
+    public AccountResource getResource(Control control) {
+        try {
+            if (accRes == null) {
+                accRes = new AccountResource(this, _name);
+
+                //The invocation on the ORB illustrates the fact that the same
+                //ORB instance created by the Bank Server is returned.
+                ref = org.omg.CosTransactions.ResourceHelper.
+                        narrow(OA.getRootOA(ORB.getInstance("ServerSide")).
+                                corbaReference(accRes));
+                RecoveryCoordinator recoverycoordinator =
+                        control.get_coordinator().register_resource(ref);
+            }
+        } catch (Exception e) {...}
+        return accRes;
+    }
+    ...
 }
 ----
 
@@ -3050,76 +2994,63 @@ The following portion of code describes how the methods prepare, commit and roll
 
 [source,Java]
 ----
-public class AccountResource extends org.omg.CosTransactions.ResourcePOA
-{
-   public AccountResource(Account account, String name )
-   {
-     _name = name;
-     _account = account;
-     _initial_balance = account._balance;
-     _current_balance = _initial_balance;
-   }
+public class AccountResource extends org.omg.CosTransactions.ResourcePOA {
+    public AccountResource(Account account, String name) {
+        _name = name;
+        _account = account;
+        _initial_balance = account._balance;
+        _current_balance = _initial_balance;
+    }
 
-   public float balance()
-   {
-     return _current_balance;
-   }
+    public float balance() {
+        return _current_balance;
+    }
 
-   public void credit( float value )
-   {
-     _current_balance += value;
-   }
+    public void credit(float value) {
+        _current_balance += value;
+    }
 
-   public void debit( float value )
-   {
-     _current_balance -= value;
-   }
+    public void debit(float value) {
+        _current_balance -= value;
+    }
 
-   public org.omg.CosTransactions.Vote prepare()
-       throws org.omg.CosTransactions.HeuristicMixed,
-       org.omg.CosTransactions.HeuristicHazard
-  {
-    if ( _initial_balance == _current_balance )
-       return org.omg.CosTransactions.Vote.VoteReadOnly;
-    if ( _current_balance < 0 )
-       return org.omg.CosTransactions.Vote.VoteRollback;
-    return org.omg.CosTransactions.Vote.VoteCommit;
-  }
+    public org.omg.CosTransactions.Vote prepare()
+            throws org.omg.CosTransactions.HeuristicMixed,
+            org.omg.CosTransactions.HeuristicHazard {
+        if (_initial_balance == _current_balance)
+            return org.omg.CosTransactions.Vote.VoteReadOnly;
+        if (_current_balance < 0)
+            return org.omg.CosTransactions.Vote.VoteRollback;
+        return org.omg.CosTransactions.Vote.VoteCommit;
+    }
 
-   public void rollback()
-     throws org.omg.CosTransactions.HeuristicCommit,
-     org.omg.CosTransactions.HeuristicMixed,
-     org.omg.CosTransactions.HeuristicHazard
-   {
-     //Nothing to do
-   }
+    public void rollback()
+            throws org.omg.CosTransactions.HeuristicCommit,
+            org.omg.CosTransactions.HeuristicMixed,
+            org.omg.CosTransactions.HeuristicHazard {
+            //Nothing to do
+    }
 
-   public void commit()
-     throws org.omg.CosTransactions.NotPrepared,
-     org.omg.CosTransactions.HeuristicRollback,
-     org.omg.CosTransactions.HeuristicMixed,
-     org.omg.CosTransactions.HeuristicHazard
-   {
-      _account._balance = _current_balance;
-   }
+    public void commit()
+            throws org.omg.CosTransactions.NotPrepared,
+            org.omg.CosTransactions.HeuristicRollback,
+            org.omg.CosTransactions.HeuristicMixed,
+            org.omg.CosTransactions.HeuristicHazard {
+        _account._balance = _current_balance;
+    }
 
-   public void commit_one_phase()
-     throws org.omg.CosTransactions.HeuristicHazard
-   {
-     _account._balance = _current_balance;
-   }
+    public void commit_one_phase()
+            throws org.omg.CosTransactions.HeuristicHazard {
+        _account._balance = _current_balance;
+    }
 
-   .....
-----
+    .....
 
-[source,Java]
-----
-   private float _initial_balance;
-   private float _current_balance;
-   private Account _account;
+    private float _initial_balance;
+    private float _current_balance;
+    private Account _account;
 
-   }
- 
+} 
 ----
 
 *Sample Application Source Code*
@@ -3127,12 +3058,12 @@ public class AccountResource extends org.omg.CosTransactions.ResourcePOA
 Full source code for the banking application is included to provide you with a starting point for experimentation.
 
 * JTS Version
-** src/com/arjuna/demo/jts/explicitremotebank/Bank.idl
-** src/com/arjuna/demo/jts/explicitremotebank/BankClient.java
-** src/com/arjuna/demo/jts/explicitremotebank/BankServer.java
-** src/com/arjuna/demo/jts/explicitremotebank/BankImpl.java
-** src/com/arjuna/demo/jts/explicitremotebank/AccountImpl.java">AccountImpl.java
-** src/com/arjuna/demo/jts/explicitremotebank/AccountResource.java
+** `src/com/arjuna/demo/jts/explicitremotebank/Bank.idl`
+** `src/com/arjuna/demo/jts/explicitremotebank/BankClient.java`
+** `src/com/arjuna/demo/jts/explicitremotebank/BankServer.java`
+** `src/com/arjuna/demo/jts/explicitremotebank/BankImpl.java`
+** `src/com/arjuna/demo/jts/explicitremotebank/AccountImpl.java` -> `AccountImpl.java`
+** `src/com/arjuna/demo/jts/explicitremotebank/AccountResource.java`
 
 *How the Banking Application is build using JTS interfaces*
 
@@ -3169,7 +3100,7 @@ module arjuna {
        };
       };
      };
-   };
+};
 ----
 
 The following portion of code illustrates how a JTS transaction is started and terminated when the client asks to transfer money from one account to another.
@@ -3177,51 +3108,48 @@ This also describes what are {parentProduct} packages that need to be used in or
 
 [NOTE]
 ====
-The code below is a simplified view of the BankClient.java program.
+The code below is a simplified view of the `BankClient.java` program.
+Only the transfer operation is illustrated; other operations manage transactions in the same way.
+(see for details the `src/com/arjuna/demo/jts/localbank/BankClient.java`)
 ====
-
-Only the transfer operation is illustrated; other operations manage transactions in the same way. (see for details the src/com/arjuna/demo/jts/localbank/BankClient.java)
 
 [source,Java]
 ----
 package com.arjuna.demo.jta.remotebank;
 import com.arjuna.ats.jts.OTSManager;
 
-public class BankClient
-{
-   private Bank _bank;
+public class BankClient {
+    private Bank _bank;
    ....
-   // This operation is used to make a transfer
-   // from an account to another account
-   private void makeTransfer()
-   {
-     //get the name of the supplier(name_supplier)
-     // and the consumer(name_consumer)
-     // get the amount to transfer (famount)
-     ...
 
-     try
-      {
-       //the following instruction asks a
-       // specific {parentProduct} class
-       // to obtain a Current instance
-       Current current = OTSManager.get_current(); 
-       System.out.println("Beginning a User
-              transaction to get balance");
-       current.begin();
+    // This operation is used to make a transfer
+    // from an account to another account
+    private void makeTransfer() {
+        //get the name of the supplier(name_supplier)
+        // and the consumer(name_consumer)
+        // get the amount to transfer (famount)
+        ...
 
-       Account supplier = _bank.get_account( name_supplier );
-       Account consumer = _bank.get_account( name_consumer );
-       supplier.debit( famount );
-       consumer.credit( famount );
+        try {
+            //the following instruction asks a
+            // specific {parentProduct} class
+            // to obtain a Current instance
+            Current current = OTSManager.get_current();
+            System.out.println("Beginning a User
+                    transaction to get balance");
+                    current.begin();
 
-       current.commit( );
-      }
-     catch (Exception e)
-      {
-       ...
-      }
-   }
+            Account supplier = _bank.get_account(name_supplier);
+            Account consumer = _bank.get_account(name_consumer);
+            supplier.debit(famount);
+            consumer.credit(famount);
+
+            current.commit();
+        } catch (Exception e) {
+            ...
+        }
+    }
+}
 ----
 
 Since JTS is used invocations against an ORB are needed, such ORB and Object Adapter instantiation and initialisation.
@@ -3229,24 +3157,21 @@ To ensure a better portability, the ORB Portability API provides a set of method
 
 [source,Java]
 ----
-public static void main( String [] args )
-{  ....
-  myORB = ORB.getInstance("test");
-     myORB.initORB(args, null); //Initialise the ORB
+public static void main(String[] args) { 
+    ....
+    myORB = ORB.getInstance("test");
+    myORB.initORB(args, null); //Initialise the ORB
 
-     org.omg.CORBA.Object obj = null;
-     try
-      {
+    org.omg.CORBA.Object obj = null;
+    try {
         //Read the reference string from
         // a file then convert to Object
         ....
         obj = myORB.orb().string_to_object(stringTarget);
-      }
-     catch ( java.io.IOException ex )
-     {
+    } catch (java.io.IOException ex) {
        ...
-     }
-     Bank bank = BankHelper.narrow(obj);
+    }
+    Bank bank = BankHelper.narrow(obj);
     ....
 }
 ----
@@ -3258,33 +3183,31 @@ The following lines decribe the implementation of the Bank CORBA object
 [source,Java]
 ----
 public class BankImpl extends BankPOA {
-     public BankImpl(OA oa)
-     {
-       _accounts = new java.util.Hashtable();
-       _oa = oa;
-     }
+    public BankImpl(OA oa) {
+        _accounts = new java.util.Hashtable();
+        _oa = oa;
+    }
 
-     public Account create_account( String name )
-     {
-         AccountImpl acc = new AccountImpl(name);
-         _accounts.put( name, acc );
-          return com.arjuna.demo.jts.remotebank.AccountHelper.
-               narrow(_oa.corbaReference(acc));
-     }
-
-     public Account get_account(String name)
-          throws NotExistingAccount
-     {
-        AccountImpl acc = ( AccountImpl ) _accounts.get( name );
-        if ( acc == null )
-          throw new NotExistingAccount("The Account requested
-                      does not exist");
+    public Account create_account(String name) {
+        AccountImpl acc = new AccountImpl(name);
+        _accounts.put(name, acc);
         return com.arjuna.demo.jts.remotebank.AccountHelper.
-             narrow(_oa.corbaReference(acc));
-     }
-     private java.util.Hashtable _accounts;
-        // Accounts created by the Bank
-     private OA _oa;
+                narrow(_oa.corbaReference(acc));
+    }
+
+    public Account get_account(String name)
+            throws NotExistingAccount {
+        AccountImpl acc = (AccountImpl) _accounts.get(name);
+        if (acc == null)
+            throw new NotExistingAccount("The Account requested
+                    does not exist");
+        return com.arjuna.demo.jts.remotebank.AccountHelper.
+                narrow(_oa.corbaReference(acc));
+    }
+
+    private java.util.Hashtable _accounts;
+    // Accounts created by the Bank
+    private OA _oa;
 }
 ----
 
@@ -3294,28 +3217,26 @@ The following lines describe how the Bank server is implemented.
 
 [source,Java]
 ----
-public class BankServer
-{
-      public static void main( String [] args )
-      {
-       ORB myORB = null;
-       RootOA myOA = null;
-       try
-       {
-        myORB = ORB.getInstance("ServerSide");
-        myOA = OA.getRootOA(myORB);
-        myORB.initORB(args, null);
-        myOA.initOA();
-        ....
-        BankImpl bank = new BankImpl(myOA);
+public class BankServer {
+    public static void main(String[] args) {
+        ORB myORB = null;
+        RootOA myOA = null;
+        try {
+            myORB = ORB.getInstance("ServerSide");
+            myOA = OA.getRootOA(myORB);
+            myORB.initORB(args, null);
+            myOA.initOA();
+            ....
+            BankImpl bank = new BankImpl(myOA);
 
-        String reference = myORB.orb().
-               object_to_string(myOA.corbaReference(bank));
-        //Store the Object reference in the file
-        ...
-        System.out.println("The bank server is now ready...");
-        myOA.run();
-      }
+            String reference = myORB.orb().
+                    object_to_string(myOA.corbaReference(bank));
+            //Store the Object reference in the file
+            ...
+            System.out.println("The bank server is now ready...");
+            myOA.run();
+        }
+    }
 }
 ----
 
@@ -3330,55 +3251,46 @@ For this aim, the Account object has to register the AccountResource object as a
 package com.arjuna.demo.jta.remotebank;
 import ....
 
-public class AccountImpl extends AccountPOA
-{
-   float _balance;
-   AccountResource accRes = null;
+public class AccountImpl extends AccountPOA {
+    float _balance;
+    AccountResource accRes = null;
 
-   public Account(String name )
-   {
-     _name = name;
-     _balance = 0;
-   }
-
-   public float balance()
-   {
-     return getResource().balance();;
-   }
-
-   public void credit( float value )
-   {
-     getResource().credit( value );
-   }
-
-   public void debit( float value )
-   {
-     getResource().debit( value );
-   }
-
-
-   public AccountResource getResource()
-   {
-     try
-     {
-      if (accRes == null) {
-        accRes = new AccountResource(this, _name) ;
-        //The invocation on the ORB illustrates the
-        // fact that the same ORB instance created
-        // by the Bank Server is returned.
-        ref = org.omg.CosTransactions.ResourceHelper.
-         narrow(OA.getRootOA(ORB.getInstance("ServerSide")).
-         corbaReference(accRes));
-        RecoveryCoordinator recoverycoordinator = OTSManager.get_current().
-         get_control().get_coordinator().register_resource(ref);
-       
-      }
+    public Account(String name) {
+        _name = name;
+        _balance = 0;
     }
-    catch (Exception e)
-    {....}
-      return accRes;
-   }
-   ...
+
+    public float balance() {
+        return getResource().balance();
+    }
+
+    public void credit(float value) {
+        getResource().credit(value);
+    }
+
+    public void debit(float value) {
+        getResource().debit(value);
+    }
+
+
+    public AccountResource getResource() {
+        try {
+            if (accRes == null) {
+                accRes = new AccountResource(this, _name);
+                //The invocation on the ORB illustrates the
+                // fact that the same ORB instance created
+                // by the Bank Server is returned.
+                ref = org.omg.CosTransactions.ResourceHelper.
+                        narrow(OA.getRootOA(ORB.getInstance("ServerSide")).
+                                corbaReference(accRes));
+                RecoveryCoordinator recoverycoordinator = OTSManager.get_current().
+                        get_control().get_coordinator().register_resource(ref);
+
+            }
+        } catch (Exception e) {....}
+        return accRes;
+    }
+    ...
 }
 ----
 
@@ -3388,73 +3300,63 @@ The following portion of code describes how the methods prepare, commit and roll
 
 [source,Java]
 ----
-public class AccountResource 
-      extends org.omg.CosTransactions.ResourcePOA
-{
-   public AccountResource(Account account, String name )
-   {
-     _name = name;
-     _account = account;
-     _initial_balance = account._balance;
-     _current_balance = _initial_balance;
-   }
+public class AccountResource
+        extends org.omg.CosTransactions.ResourcePOA {
+    public AccountResource(Account account, String name) {
+        _name = name;
+        _account = account;
+        _initial_balance = account._balance;
+        _current_balance = _initial_balance;
+    }
 
-   public float balance()
-   {
-     return _current_balance;
-   }
+    public float balance() {
+        return _current_balance;
+    }
 
-   public void credit( float value )
-   {
-     _current_balance += value;
-   }
+    public void credit(float value) {
+        _current_balance += value;
+    }
 
-   public void debit( float value )
-   {
-     _current_balance -= value;
-   }
+    public void debit(float value) {
+        _current_balance -= value;
+    }
 
-   public org.omg.CosTransactions.Vote prepare()
-       throws org.omg.CosTransactions.HeuristicMixed,
-       org.omg.CosTransactions.HeuristicHazard
-       {
-          if ( _initial_balance == _current_balance )
-              return org.omg.CosTransactions.Vote.VoteReadOnly;
-            if ( _current_balance < 0 )
-                  return org.omg.CosTransactions.Vote.VoteRollback;
-              return org.omg.CosTransactions.Vote.VoteCommit;
-          }
+    public org.omg.CosTransactions.Vote prepare()
+            throws org.omg.CosTransactions.HeuristicMixed,
+            org.omg.CosTransactions.HeuristicHazard {
+        if (_initial_balance == _current_balance)
+            return org.omg.CosTransactions.Vote.VoteReadOnly;
+        if (_current_balance < 0)
+            return org.omg.CosTransactions.Vote.VoteRollback;
+        return org.omg.CosTransactions.Vote.VoteCommit;
+    }
 
-   public void rollback()
-     throws org.omg.CosTransactions.HeuristicCommit,
-     org.omg.CosTransactions.HeuristicMixed,
-     org.omg.CosTransactions.HeuristicHazard
-   {
-     //Nothing to do
-   }
+    public void rollback()
+            throws org.omg.CosTransactions.HeuristicCommit,
+            org.omg.CosTransactions.HeuristicMixed,
+            org.omg.CosTransactions.HeuristicHazard {
+        //Nothing to do
+    }
 
-   public void commit()
-     throws org.omg.CosTransactions.NotPrepared,
-     org.omg.CosTransactions.HeuristicRollback,
-     org.omg.CosTransactions.HeuristicMixed,
-     org.omg.CosTransactions.HeuristicHazard
-   {
-      _account._balance = _current_balance;
-   }
+    public void commit()
+            throws org.omg.CosTransactions.NotPrepared,
+            org.omg.CosTransactions.HeuristicRollback,
+            org.omg.CosTransactions.HeuristicMixed,
+            org.omg.CosTransactions.HeuristicHazard {
+        _account._balance = _current_balance;
+    }
 
-   public void commit_one_phase()
-     throws org.omg.CosTransactions.HeuristicHazard
-   {
-     _account._balance = _current_balance;
-   }
+    public void commit_one_phase()
+            throws org.omg.CosTransactions.HeuristicHazard {
+        _account._balance = _current_balance;
+    }
 
-   ....
-   private float _initial_balance;
-   private float _current_balance;
-   private final Account _account;
+    ....
+    private float _initial_balance;
+    private float _current_balance;
+    private final Account _account;
 
-   }
- 
+}
 ----
 
 *Sample Application Source Code*
@@ -3462,12 +3364,12 @@ public class AccountResource
 Full source code for the banking application is included to provide you with a starting point for experimentation.
 
 * JTS Version
-** src/com/arjuna/demo/jts/remotebank/Bank.idl">Bank.idl
-** src/com/arjuna/demo/jts/remotebank/BankClient.java
-** src/com/arjuna/demo/jts/remotebank/BankServer.java">BankServer.java
-** src/com/arjuna/demo/jts/remotebank/BankImpl.java
-** src/com/arjuna/demo/jts/remotebank/AccountImpl.java">AccountImpl.java
-** src/com/arjuna/demo/jts/remotebank/AccountResource.java
+** `src/com/arjuna/demo/jts/remotebank/Bank.idl">Bank.idl`
+** `src/com/arjuna/demo/jts/remotebank/BankClient.java`
+** `src/com/arjuna/demo/jts/remotebank/BankServer.java` -> `BankServer.java`
+** `src/com/arjuna/demo/jts/remotebank/BankImpl.java`
+** `src/com/arjuna/demo/jts/remotebank/AccountImpl.java` -> `AccountImpl.java`
+** `src/com/arjuna/demo/jts/remotebank/AccountResource.java`
 
 *How the Banking Application is build using JTS interfaces*
 
@@ -3479,68 +3381,60 @@ This also describes what are {parentProduct} packages that need to be used in or
 
 [NOTE]
 ====
-The code below is a simplified view of the BankClient.java program.
+The code below is a simplified view of the `BankClient.java` program.
+Only the transfer operation is illustrated; other operations manage transactions in the same way.
+(see for details the `src/com/arjuna/demo/jts/localbank/BankClient.java`)
 ====
 
-Only the transfer operation is illustrated; other operations manage transactions in the same way. (see for details the src/com/arjuna/demo/jts/localbank/BankClient.java)
-
-____
 [source,Java]
 ----
 package com.arjuna.demo.jta.localbank;
 import com.arjuna.ats.jts.OTSManager;
 
-public class BankClient
-{
-   private Bank _bank;
+public class BankClient {
+    private Bank _bank;
     ....
-   // This operation is used to make
-   //a transfer from an account to another account
-   private void makeTransfer()
-   {
-     System.out.print("Take money from : ");
-     String name_supplier = input();
 
-     System.out.print("Put money to : ");
-     String name_consumer = input();
+    // This operation is used to make
+    //a transfer from an account to another account
+    private void makeTransfer() {
+        System.out.print("Take money from : ");
+        String name_supplier = input();
 
-     System.out.print("Transfert amount : ");
-     String amount = input();
+        System.out.print("Put money to : ");
+        String name_consumer = input();
 
-     float famount = 0;
-     try
-      {
-        famount = Float.parseFloat(amount);
-      }
-     catch ( java.lang.Exception ex )
-      {
-        System.out.println("Invalid float number,
-                     abort operation...");
-        return;
-      }
+        System.out.print("Transfert amount : ");
+        String amount = input();
 
-     try
-      {
-       //the following instruction asks a specific
-       // {parentProduct} class to obtain a Current instance
-       Current current = OTSManager.get_current(); 
-       System.out.println("Beginning a User
-                     transaction to get balance");
-       current.begin();
+        float famount = 0;
+        try {
+            famount = Float.parseFloat(amount);
+        } catch (java.lang.Exception ex) {
+            System.out.println("Invalid float number,
+                    abort operation...");
+            return;
+        }
 
-       Account supplier = _bank.get_account( name_supplier );
-       Account consumer = _bank.get_account( name_consumer );
-       supplier.debit( famount );
-       consumer.credit( famount );
+        try {
+            //the following instruction asks a specific
+            // {parentProduct} class to obtain a Current instance
+            Current current = OTSManager.get_current();
+            System.out.println("Beginning a User
+                    transaction to get balance");
+                    current.begin();
 
-       current.commit( );
-      }
-     catch (Exception e)
-      {
-       System.err.println("ERROR - "+e);
-      }
-   }
-   
+            Account supplier = _bank.get_account(name_supplier);
+            Account consumer = _bank.get_account(name_consumer);
+            supplier.debit(famount);
+            consumer.credit(famount);
+
+            current.commit();
+        } catch (Exception e) {
+            System.err.println("ERROR - " + e);
+        }
+    }
+}
 ----
 
 Since JTS is used invocations against an ORB are needed, such ORB and Object Adapter instantiation and initialisation.
@@ -3548,26 +3442,21 @@ To ensure a better portability, the ORB Portability API provides a set of method
 
 [source,Java]
 ----
-public static void main( String [] args )
-{
-  try
-   { 
-    // Create an ORB instance
-    myORB = ORB.getInstance("test");
-    //Obtain the Root POA
-    myOA = OA.getRootOA(myORB);
-    //Initialise the ORB
-    myORB.initORB(args, null);
-    //Initialise the POA
-    myOA.initOA();
-     ....
-     
-   }
-   catch(Exception e)
-   { ....}
+public static void main(String[] args) {
+    try {
+        // Create an ORB instance
+        myORB = ORB.getInstance("test");
+        //Obtain the Root POA
+        myOA = OA.getRootOA(myORB);
+        //Initialise the ORB
+        myORB.initORB(args, null);
+        //Initialise the POA
+        myOA.initOA();
+        ....
+
+    } catch (Exception e) { ....}
 }
 ----
-____
 
 The Bank object has mainly two operations: creating an account, which is added in the account list, and returning an Account object.
 No transactional instruction is performed by the Bank object
@@ -3575,30 +3464,28 @@ No transactional instruction is performed by the Bank object
 [source,Java]
 ----
 package com.arjuna.demo.jta.localbank;
+
 public class Bank {
-   private final java.util.Hashtable _accounts;
+    private final java.util.Hashtable _accounts;
 
-   public Bank()
-   {
-     _accounts = new java.util.Hashtable();
-   }
+    public Bank() {
+        _accounts = new java.util.Hashtable();
+    }
 
-   public Account create_account( String name )
-   {
-     Account acc = new Account(name);
-     _accounts.put( name, acc );
-      return acc;
-   }
+    public Account create_account(String name) {
+        Account acc = new Account(name);
+        _accounts.put(name, acc);
+        return acc;
+    }
 
-   public Account get_account(String name)
-   throws NotExistingAccount
-   {
-     Account acc = ( Account ) _accounts.get( name );
-     if ( acc == null )
-       throw new NotExistingAccount("The Account
-                      requested does not exist");
-     return acc;
-   }
+    public Account get_account(String name)
+            throws NotExistingAccount {
+        Account acc = (Account) _accounts.get(name);
+        if (acc == null)
+            throw new NotExistingAccount("The Account
+                    requested does not exist");
+        return acc;
+    }
 }
 ----
 
@@ -3612,49 +3499,40 @@ For this aim, the Account object has to register the AccountResource object as a
 ----
 package com.arjuna.demo.jta.localbank;
 
-public class Account
-{
- float _balance;
- AccountResource accRes = null;
+public class Account {
+    float _balance;
+    AccountResource accRes = null;
 
- public Account(String name )
- {
-   _name = name;
-   _balance = 0;
- }
-
- public float balance()
- {
-   return getResource().balance();
- }
-
- public void credit( float value )
- {
-   getResource().credit( value );
- }
-
- public void debit( float value )
- {
-   getResource().debit( value );
- }
-
- public AccountResource getResource()
- {
-   try
-   {
-    if (accRes == null) {
-     accRes = new AccountResource(this, _name) ;
-     Resource  ref = org.omg.CosTransactions.ResourceHelper.
-      narrow(OA.getRootOA(ORB.getInstance("test")).corbaReference(accRes));
-     RecoveryCoordinator recoverycoordinator = OTSManager.get_current().
-      get_control().get_coordinator().register_resource(ref);
+    public Account(String name) {
+        _name = name;
+        _balance = 0;
     }
-  }
-  catch (Exception e)
-   {...}
-   return accRes;
- }
-  ...
+
+    public float balance() {
+        return getResource().balance();
+    }
+
+    public void credit(float value) {
+        getResource().credit(value);
+    }
+
+    public void debit(float value) {
+        getResource().debit(value);
+    }
+
+    public AccountResource getResource() {
+        try {
+            if (accRes == null) {
+                accRes = new AccountResource(this, _name);
+                Resource ref = org.omg.CosTransactions.ResourceHelper.
+                        narrow(OA.getRootOA(ORB.getInstance("test")).corbaReference(accRes));
+                RecoveryCoordinator recoverycoordinator = OTSManager.get_current().
+                        get_control().get_coordinator().register_resource(ref);
+            }
+        } catch (Exception e) {...}
+        return accRes;
+    }
+    ...
 }
 ----
 
@@ -3664,71 +3542,60 @@ The following portion of code describes how the methods prepare, commit and roll
 
 [source,Java]
 ----
-public class AccountResource extends org.omg.CosTransactions.ResourcePOA
-{
-   public AccountResource(Account account, String name )
-   {
-     _name = name;
-     _account = account;
-     _initial_balance = account._balance;
-     _current_balance = _initial_balance;
-   }
-
-   public float balance()
-   {
-     return _current_balance;
-   }
-
-   public void credit( float value )
-   {
-     _current_balance += value;
-   }
-
-   public void debit( float value )
-   {
-     _current_balance -= value;
-   }
-
-   public org.omg.CosTransactions.Vote prepare()
-       throws org.omg.CosTransactions.HeuristicMixed,
-       org.omg.CosTransactions.HeuristicHazard
-    {
-      if ( _initial_balance == _current_balance )
-       return org.omg.CosTransactions.Vote.VoteReadOnly;
-     if ( _current_balance < 0 )
-       return org.omg.CosTransactions.Vote.VoteRollback;
-     return org.omg.CosTransactions.Vote.VoteCommit;
+public class AccountResource extends org.omg.CosTransactions.ResourcePOA {
+    public AccountResource(Account account, String name) {
+        _name = name;
+        _account = account;
+        _initial_balance = account._balance;
+        _current_balance = _initial_balance;
     }
 
-   public void rollback()
-     throws org.omg.CosTransactions.HeuristicCommit,
-     org.omg.CosTransactions.HeuristicMixed,
-     org.omg.CosTransactions.HeuristicHazard
-   {
-     //Nothing to do
-   }
+    public float balance() {
+        return _current_balance;
+    }
 
-   public void commit()
-     throws org.omg.CosTransactions.NotPrepared,
-     org.omg.CosTransactions.HeuristicRollback,
-     org.omg.CosTransactions.HeuristicMixed,
-     org.omg.CosTransactions.HeuristicHazard
-   {
-      _account._balance = _current_balance;
-   }
+    public void credit(float value) {
+        _current_balance += value;
+    }
 
-   public void commit_one_phase()
-     throws org.omg.CosTransactions.HeuristicHazard
-   {
-     _account._balance = _current_balance;
-   }
-   .....
-   private final float _initial_balance;
-   private float _current_balance;
-   private final Account _account;
+    public void debit(float value) {
+        _current_balance -= value;
+    }
 
-   }
- 
+    public org.omg.CosTransactions.Vote prepare()
+            throws org.omg.CosTransactions.HeuristicMixed,
+            org.omg.CosTransactions.HeuristicHazard {
+        if (_initial_balance == _current_balance)
+            return org.omg.CosTransactions.Vote.VoteReadOnly;
+        if (_current_balance < 0)
+            return org.omg.CosTransactions.Vote.VoteRollback;
+        return org.omg.CosTransactions.Vote.VoteCommit;
+    }
+
+    public void rollback()
+            throws org.omg.CosTransactions.HeuristicCommit,
+            org.omg.CosTransactions.HeuristicMixed,
+            org.omg.CosTransactions.HeuristicHazard {
+        //Nothing to do
+    }
+
+    public void commit()
+            throws org.omg.CosTransactions.NotPrepared,
+            org.omg.CosTransactions.HeuristicRollback,
+            org.omg.CosTransactions.HeuristicMixed,
+            org.omg.CosTransactions.HeuristicHazard {
+        _account._balance = _current_balance;
+    }
+
+    public void commit_one_phase()
+            throws org.omg.CosTransactions.HeuristicHazard {
+        _account._balance = _current_balance;
+    }
+    .....
+    private final float _initial_balance;
+    private float _current_balance;
+    private final Account _account;
+} 
 ----
 
 *Sample Application Source Code*
@@ -3736,11 +3603,11 @@ public class AccountResource extends org.omg.CosTransactions.ResourcePOA
 Full source code for the banking application is included to provide you with a starting point for experimentation.
 
 * JTS Version
-** src/com/arjuna/demo/jts/localbank/BankClient.java
-** src/com/arjuna/demo/jts/localbank/Bank.java">Bank.java
-** src/com/arjuna/demo/jts/localbank/Account.java">Account.java
-** src/com/arjuna/demo/jts/localbank/AccountResource.java
-** src/com/arjuna/demo/jts/localbank/NotExistingAccount.java">NotExistingAccount.java
+** `src/com/arjuna/demo/jts/localbank/BankClient.java`
+** `src/com/arjuna/demo/jts/localbank/Bank.java` -> `Bank.java`
+** `src/com/arjuna/demo/jts/localbank/Account.java` -> `Account.java`
+** `src/com/arjuna/demo/jts/localbank/AccountResource.java`
+** `src/com/arjuna/demo/jts/localbank/NotExistingAccount.java` -> `NotExistingAccount.java`
 
 === Making the Banking Application Persistent
 
@@ -3760,7 +3627,8 @@ Two ways will be presented in this trail on the way to build the banking applica
 ArjunaCore exploits object-oriented techniques to present programmers with a toolkit of Java classes from which application classes can inherit to obtain desired properties, such as persistence and concurrency control.
 These classes form a hierarchy, part of which is shown below.
 
-Figure 1 - ArjunaCore class hierarchy.
+.ArjunaCore class hierarchy
+image::../images/jts-ArjunaCore_Classes.PNG.png[align="center"]
 
 Apart from specifying the scopes of transactions, and setting appropriate locks within objects, the application programmer does not have any other responsibilities: ArjunaCore and Transactional Objects for Java (TXOJ) guarantee that transactional objects will be registered with, and be driven by, the appropriate transactions, and crash recovery mechanisms are invoked automatically in the event of failures.
 
@@ -3775,24 +3643,25 @@ At the root of the class hierarchy, given in Figure 1, is the class StateManager
 This class is responsible for object activation and deactivation and object recovery.
 The simplified signature of the class is:
 
-____
 [source,Java]
 ----
-public abstract class StateManager
-{
-   public boolean activate ();
-   public boolean deactivate (boolean commit);
-   public Uid get_uid (); // object’s identifier.
+public abstract class StateManager {
+    public boolean activate();
 
-   // methods to be provided by a derived class
-   public boolean restore_state (InputObjectState os);
-   public boolean save_state (OutputObjectState os);
+    public boolean deactivate(boolean commit);
 
-   protected StateManager ();
-   protected StateManager (Uid id);
+    public Uid get_uid(); // object’s identifier.
+
+    // methods to be provided by a derived class
+    public boolean restore_state(InputObjectState os);
+
+    public boolean save_state(OutputObjectState os);
+
+    protected StateManager();
+
+    protected StateManager(Uid id);
 }
 ----
-____
 
 Objects are assumed to be of three possible flavours.
 They may simply be recoverable, in which case StateManager will attempt to generate and maintain appropriate recovery information for the object.
@@ -3803,7 +3672,8 @@ Finally, objects may possess none of these capabilities, in which case no recove
 According to the its activation or deactivation a transactional object for Java move from a passive state to an active state and vice-versa.
 The fundamental life cycle of a persistent object in TXOJ is shown in Figure 2.
 
-Figure 2 - The life cycle of a persistent object.
+.The life cycle of a persistent object.
+image::../images/jts-txoj_lifecycle.PNG.png[align="center"]
 
 * The object is initially passive, and is stored in the object store as an instance of the class OutputObjectState.
 * When required by an application the object is automatically activated by reading it from the store using a read_committed operation and is then converted from an InputObjectState instance into a fully-fledged object by the restore_state operation of the object.
@@ -3814,27 +3684,23 @@ Object de-activation normally only occurs when the top-level transaction within 
 
 While deactivating and activating a transactional object for java, the operations save_state and restore_state are respectively invoked.
 These operations must be implemented by the programmer since StateManager cannot detect user level state changes.
-This gives the programmer the ability to decide which parts of an object’s state should be made persistent.
+This gives the programmer the ability to decide which parts of an object's state should be made persistent.
 For example, for a spreadsheet it may not be necessary to save all entries if some values can simply be recomputed.
 The save_state implementation for a class Example that has two integer member variables called A and B and one String member variable called C could simply be:
 
 [source,Java]
 ----
-public boolean save_state(OutputObjectState o)
-{
-   if (!super.save_state(o))
-      return false;
-   try
-   {
-     o.packInt(A);
-     o.packInt(B);
-     o.packString(C))
-   }
-   catch (Exception e)
-   {
-     return false;
-   }
-   return true;
+public boolean save_state(OutputObjectState o) {
+    if (!super.save_state(o))
+        return false;
+    try {
+        o.packInt(A);
+        o.packInt(B);
+        o.packString(C))
+    } catch (Exception e) {
+        return false;
+    }
+    return true;
 }
 ----
 
@@ -3842,21 +3708,17 @@ while, the corresponding restore_state implementation allowing to retrieve simil
 
 [source,Java]
 ----
-public boolean restore_state(InputObjectState o)
-{
-   if (!super.restore_state(o))
-      return false;
-   try
-   {
-     A = o.unpackInt();
-     B = o.unpackInt();
-     S = o.unpackString())
-   }
-   catch (Exception e)
-   {
-     return false;
-   }
-   return true;
+public boolean restore_state(InputObjectState o) {
+    if (!super.restore_state(o))
+        return false;
+    try {
+        A = o.unpackInt();
+        B = o.unpackInt();
+        S = o.unpackString())
+    } catch (Exception e) {
+        return false;
+    }
+    return true;
 }
 ----
 
@@ -3879,8 +3741,7 @@ This ensures that the two-phase property can be correctly maintained.
 
 [source,Java]
 ----
-public abstract class LockManager extends StateManager
-{
+public abstract class LockManager extends StateManager {
    public LockResult setlock (Lock toSet, int retry, int timeout);
 }
 ----
@@ -3895,39 +3756,33 @@ The code below shows how we may try to obtain a write lock on an object:
 
 [source,Java]
 ----
-public class Example extends LockManager
-{
-   public boolean foobar ()
-   {
-     AtomicAction A = new AtomicAction;
-     /*
-     
-     * The ArjunaCore AtomicAction class is here used to create
-     * a transaction. Any interface provided by the JTA or
-     * JTS interfaces that allow to create transactions can
-     * be used in association with the Locking mechanisms
-     * described in this trail.
-     */
-     boolean result = false;
+public class Example extends LockManager {
+    public boolean foobar() {
+        AtomicAction A = new AtomicAction;
+        /*
+         * The ArjunaCore AtomicAction class is here used to create
+         * a transaction. Any interface provided by the JTA or
+         * JTS interfaces that allow to create transactions can
+         * be used in association with the Locking mechanisms
+         * described in this trail.
+         */
+        boolean result = false;
 
-     A.begin();
-     if (setlock(new Lock(LockMode.WRITE), 0) == Lock.GRANTED)
-     {
-       /*
-       * Do some work, and TXOJ will
-       * guarantee ACID properties.
-       */
-       // automatically aborts if fails
-       if (A.commit() == AtomicAction.COMMITTED)
-       {
-         result = true;
-       }
-     }
-    else
-       A.rollback();
+        A.begin();
+        if (setlock(new Lock(LockMode.WRITE), 0) == Lock.GRANTED) {
+            /*
+             * Do some work, and TXOJ will
+             * guarantee ACID properties.
+             */
+            // automatically aborts if fails
+            if (A.commit() == AtomicAction.COMMITTED) {
+                result = true;
+            }
+        } else
+            A.rollback();
 
-    return result;
-   }
+        return result;
+    }
 }
 ----
 
@@ -3950,24 +3805,18 @@ _Note_ : Ensure that the jacorb jar files are added in your `CLASSPATH`
 ===== Delpoy the Application
 
 - Start the Server
-
-____
-[source,Java]
++
+[source,shell]
 ----
-                        java com.arjuna.demo.jts.txojbank.BankServer
-                    
+java com.arjuna.demo.jts.txojbank.BankServer
 ----
-____
 
 - In a separate window, start the client
-
-____
-[source,Java]
++
+[source,shell]
 ----
-                        java com.arjuna.demo.jts.txojbank.BankClient
-                    
+java com.arjuna.demo.jts.txojbank.BankClient
 ----
-____
 
 As for the demonstrations presented in the previous trails, the same menu is presented for the client with a set of operations such creating an account, credit/withdraw money to/from an account and making a transfer.
 
@@ -4007,12 +3856,12 @@ module arjuna {
        };
       };
      };
-   };
+};
 ----
 
 * The client program
 +
-Basically the client program (src/com/arjuna/demo/jts/txojbank/BankClient.java) is equivalent to the one described in the distributed jts version with implicit propagation, the difference is on the package name.
+Basically the client program (`src/com/arjuna/demo/jts/txojbank/BankClient.java`) is equivalent to the one described in the distributed jts version with implicit propagation, the difference is on the package name.
 * Implementing the Account Interface
 * Implementing the Bank Interface
 * Implementing the Bank Server.
@@ -4028,19 +3877,27 @@ The Java interface definition of the AccountImpl class is given below:
 
 [source,Java]
 ----
-public class AccountImpl extends LockManager implements AccountOperations
-{
-  float _balance;
-  String _name;
-  public AccountImpl(String name );
-  public AccountImpl(Uid uid);
-  protected void finalize();
-  public float balance();
-  public void credit( float value );
-  public void debit( float value );
-  public boolean save_state (OutputObjectState os, int ObjectType);
-  public boolean restore_state (InputObjectState os, int ObjectType);
-  public String type();
+public class AccountImpl extends LockManager implements AccountOperations {
+    float _balance;
+    String _name;
+
+    public AccountImpl(String name);
+
+    public AccountImpl(Uid uid);
+
+    protected void finalize();
+
+    public float balance();
+
+    public void credit(float value);
+
+    public void debit(float value);
+
+    public boolean save_state(OutputObjectState os, int ObjectType);
+
+    public boolean restore_state(InputObjectState os, int ObjectType);
+
+    public String type();
 }
 ----
 
@@ -4050,11 +3907,10 @@ To use an existing persistent object requires the use of a special constructor t
 +
 [source,Java]
 ----
-public AccountImpl(Uid uid)
-{
-  super(uid);
-  // Invoking super will lead to invoke the
-  //restore_state method of this AccountImpl class
+public AccountImpl(Uid uid) {
+    super(uid);
+    // Invoking super will lead to invoke the
+    // restore_state method of this AccountImpl class
 }
 ----
 +
@@ -4062,11 +3918,10 @@ There is no particular behaviour applied by the Constructor with the Uid paramet
 +
 [source,Java]
 ----
-public AccountImpl(String name )
-{
-  super(ObjectType.ANDPERSISTENT);
-  _name = name;
-  _balance = 0;
+public AccountImpl(String name ) {
+    super(ObjectType.ANDPERSISTENT);
+    _name = name;
+    _balance = 0;
 }
 ----
 +
@@ -4077,42 +3932,34 @@ The implementations of save_state and restore_state are relatively simple for th
 +
 [source,Java]
 ----
-public boolean save_state (OutputObjectState os, int ObjectType)
-{
-   if (!super.save_state(os, ObjectType))
-      return false;
+public boolean save_state(OutputObjectState os, int ObjectType) {
+    if (!super.save_state(os, ObjectType))
+        return false;
 
-   try
-   {
-      os.packString(_name);
-      os.packFloat(_balance);
-      return true;
-   }
-   catch (Exception e)
-   {
-      return false;
-   }
+    try {
+        os.packString(_name);
+        os.packFloat(_balance);
+        return true;
+    } catch (Exception e) {
+        return false;
+    }
 }
 ----
 +
 [source,Java]
 ----
-public boolean restore_state (InputObjectState os, int ObjectType)
-{
-   if (!super.restore_state(os, ObjectType))
-      return false;
+public boolean restore_state(InputObjectState os, int ObjectType) {
+    if (!super.restore_state(os, ObjectType))
+        return false;
 
-   try
-   {
-     _name = os.unpackString();
-     _balance = os.unpackFloat();
-      return true;
-   }
-   catch (Exception e)
-   {
-      return false;
-   }
-} 
+    try {
+        _name = os.unpackString();
+        _balance = os.unpackFloat();
+        return true;
+    } catch (Exception e) {
+        return false;
+    }
+}
 ----
 +
 Because the AccountImpl class is derived from the LockManager class, the operation type should be:
@@ -4120,16 +3967,14 @@ Because the AccountImpl class is derived from the LockManager class, the operati
 +
 [source,Java]
 ----
-public float balance()
-{
-  float result = 0;
-  if (setlock(new Lock(LockMode.READ), 0) == LockResult.GRANTED)
-  {
-    result = _balance;
-  }
-  ...
+public float balance() {
+    float result = 0;
+    if (setlock(new Lock(LockMode.READ), 0) == LockResult.GRANTED) {
+        result = _balance;
+    }
+    ...
 
-  return result;
+    return result;
 }
 ----
 +
@@ -4138,28 +3983,24 @@ This is not the case of the credit and debit methods that need to modify the cur
 +
 [source,Java]
 ----
-public void credit( float value )
-{
-  if (setlock(new Lock(LockMode.WRITE), 0) == LockResult.GRANTED)
-  {
-    _balance += value;
-  }
-  ...
+public void credit(float value) {
+    if (setlock(new Lock(LockMode.WRITE), 0) == LockResult.GRANTED) {
+        _balance += value;
+    }
+    ...
 }
 
-public void debit( float value )
-{
-  if (setlock(new Lock(LockMode.WRITE), 0) == LockResult.GRANTED)
-  {
-    _balance -= value;
-  }
-  ...
+public void debit(float value) {
+    if (setlock(new Lock(LockMode.WRITE), 0) == LockResult.GRANTED) {
+        _balance -= value;
+    }
+    ...
 }
 ----
 
 ===== Sample Application Source Code
 
-Full source code for the src/com/arjuna/demo/jts/txojbank/AccountImpl.java">AccountImpl class is included to provide you with a starting point for experimentation.
+Full source code for the `src/com/arjuna/demo/jts/txojbank/AccountImpl.java` -> AccountImpl class is included to provide you with a starting point for experimentation.
 
 ===== Implementing the Bank interface
 
@@ -4172,25 +4013,30 @@ The Java interface definition of the BankImpl class is given below:
 
 [source,Java]
 ----
-public class BankImpl extends LockManager implements BankOperations
-{
-  public BankImpl(OA oa);
-  public BankImpl(Uid uid, OA oa);
-  public BankImpl(Uid uid);
-  public Account create_account( String name );
-  public Account get_account( String name );
-  public boolean save_state (OutputObjectState os, int ObjectType);
-  public boolean restore_state (InputObjectState os, int ObjectType);
-  public String type();
+public class BankImpl extends LockManager implements BankOperations {
+    public BankImpl(OA oa);
 
-  public static final int ACCOUNT_SIZE = 10;
-  // ACCOUNT_SIZE is the maximum number of accounts
-  private String [] accounts;
-  private int numberOfAccounts;
-  private ORB _orb;
-  private OA _oa;
-  private java.util.Hashtable _accounts; //The list of accounts
+    public BankImpl(Uid uid, OA oa);
 
+    public BankImpl(Uid uid);
+
+    public Account create_account(String name);
+
+    public Account get_account(String name);
+
+    public boolean save_state(OutputObjectState os, int ObjectType);
+
+    public boolean restore_state(InputObjectState os, int ObjectType);
+
+    public String type();
+
+    public static final int ACCOUNT_SIZE = 10;
+    // ACCOUNT_SIZE is the maximum number of accounts
+    private String[] accounts;
+    private int numberOfAccounts;
+    private ORB _orb;
+    private OA _oa;
+    private java.util.Hashtable _accounts; //The list of accounts
 }
 ----
 
@@ -4200,12 +4046,11 @@ To use an existing persistent object requires the use of a special constructor t
 +
 [source,Java]
 ----
-public BankImpl(Uid uid)
-{
-  super(uid);
-  _accounts = new java.util.Hashtable();
-  numberOfAccounts = 0;
-  accounts = new String[ACCOUNT_SIZE];
+public BankImpl(Uid uid) {
+    super(uid);
+    _accounts = new java.util.Hashtable();
+    numberOfAccounts = 0;
+    accounts = new String[ACCOUNT_SIZE];
 }
 ----
 +
@@ -4213,12 +4058,12 @@ The following constructor is invoked during the first creation of the Bank Objec
 +
 [source,Java]
 ----
-public BankImpl(OA oa)
-{ super(ObjectType.ANDPERSISTENT);
-  _accounts = new java.util.Hashtable();
-  _oa = oa;
-  numberOfAccounts = 0;
-  accounts = new String[ACCOUNT_SIZE];
+public BankImpl(OA oa) {
+    super(ObjectType.ANDPERSISTENT);
+    _accounts = new java.util.Hashtable();
+    _oa = oa;
+    numberOfAccounts = 0;
+    accounts = new String[ACCOUNT_SIZE];
 }
 ----
 +
@@ -4228,67 +4073,60 @@ Invoking super or the constructor of the inherited class leads to execute the re
 +
 [source,Java]
 ----
-public BankImpl(Uid uid, OA oa)
-{ super(uid);
-  _accounts = new java.util.Hashtable();
-  _oa = oa;
-  numberOfAccounts = 0;
-  accounts = new String[ACCOUNT_SIZE];
+public BankImpl(Uid uid, OA oa) {
+    super(uid);
+    _accounts = new java.util.Hashtable();
+    _oa = oa;
+    numberOfAccounts = 0;
+    accounts = new String[ACCOUNT_SIZE];
 }
 ----
 +
 The destructor of the queue class is only required to call the terminate operation of LockManager.
 
-____
 [source,Java]
 ----
-protected void finalize()
-{
-  super.terminate();
+protected void finalize() {
+    super.terminate();
 }
 ----
-____
 
 * account management operations
 +
 [source,Java]
 ----
-public Account create_account( String name )
-{
-  AccountImpl acc;
-  AccountPOA account = null;
-  //Attempt to obtain the lock for change
-  if (setlock(new Lock(LockMode.WRITE), 0) == LockResult.GRANTED)
-   {
-     //Check if the maximum number of accounts is not reached
-     if (numberOfAccounts < ACCOUNT_SIZE)
-     {
-     acc = new AccountImpl(name); //Create a new account
-     //Use the TIE mechanism to create a CORBA object
-      account = new AccountPOATie(acc);
-      //Add the account to the list of accounts that
-      //facilitate to retrieve accounts
-      _accounts.put( name, acc);
-       //The Uid of the created account is put in the array
-       accounts[numberOfAccounts] = acc.get_uid().toString();
-       numberOfAccounts++;
-     }
-  }
-  return com.arjuna.demo.jts.txojbank.
-       AccountHelper.narrow(_oa.corbaReference(account));
+public Account create_account(String name) {
+    AccountImpl acc;
+    AccountPOA account = null;
+    //Attempt to obtain the lock for change
+    if (setlock(new Lock(LockMode.WRITE), 0) == LockResult.GRANTED) {
+        //Check if the maximum number of accounts is not reached
+        if (numberOfAccounts < ACCOUNT_SIZE) {
+            acc = new AccountImpl(name); //Create a new account
+            //Use the TIE mechanism to create a CORBA object
+            account = new AccountPOATie(acc);
+            //Add the account to the list of accounts that
+            //facilitate to retrieve accounts
+            _accounts.put(name, acc);
+            //The Uid of the created account is put in the array
+            accounts[numberOfAccounts] = acc.get_uid().toString();
+            numberOfAccounts++;
+        }
+    }
+    return com.arjuna.demo.jts.txojbank.
+            AccountHelper.narrow(_oa.corbaReference(account));
 }
 
 public Account get_account(String name)
-  throws NotExistingAccount
-{
-  // Only the hashtable list is used to retrieve the account
-  AccountImpl acc = ( AccountImpl ) _accounts.get( name );
-  AccountPOA account = new AccountPOATie(acc);
-  if ( acc == null )
-     throw new NotExistingAccount("The Account
-        requested does not exist");
-  return com.arjuna.demo.jts.txojbank.
-    AccountHelper.narrow(_oa.corbaReference(account));
+        throws NotExistingAccount {
+    // Only the hashtable list is used to retrieve the account
+    AccountImpl acc = (AccountImpl) _accounts.get(name);
+    AccountPOA account = new AccountPOATie(acc);
+    if (acc == null)
+        throw new NotExistingAccount("The Account
+                requested does not exist");
+    return com.arjuna.demo.jts.txojbank.
+            AccountHelper.narrow(_oa.corbaReference(account));
 }
 ----
 
@@ -4296,75 +4134,62 @@ public Account get_account(String name)
 +
 [source,Java]
 ----
-public boolean save_state (OutputObjectState os, int ObjectType)
-{
-   if (!super.save_state(os, ObjectType))
-     return false;
+public boolean save_state(OutputObjectState os, int ObjectType) {
+    if (!super.save_state(os, ObjectType))
+        return false;
 
-   try
-   {
-     os.packInt(numberOfAccounts);
-     if (numberOfAccounts > 0)
-     {
-      // All Uid located in the array will be saved
-      for (int i = 0; i < numberOfAccounts; i++)
-        os.packString(accounts[i]);
-     }
-     return true;
-   }
-   catch (Exception e)
-   {
-     return false;
-   }
+    try {
+        os.packInt(numberOfAccounts);
+        if (numberOfAccounts > 0) {
+            // All Uid located in the array will be saved
+            for (int i = 0; i < numberOfAccounts; i++)
+                os.packString(accounts[i]);
+        }
+        return true;
+    } catch (Exception e) {
+        return false;
+    }
 }
 ----
 +
 [source,Java]
 ----
-public boolean restore_state (InputObjectState os, int ObjectType)
-{
-   if (!super.restore_state(os, ObjectType))
-   {
-     return false;
-   }
-   try
-   {
-      numberOfAccounts = os.unpackInt();
+public boolean restore_state(InputObjectState os, int ObjectType) {
+    if (!super.restore_state(os, ObjectType)) {
+        return false;
+    }
+    try {
+        numberOfAccounts = os.unpackInt();
 
-      if (numberOfAccounts > 0)
-      {
-        for (int i = 0; i < numberOfAccounts; i++)
-        {
-          accounts[i] = os.unpackString();
-          //each stored Uid is re-used to recreate
-          //a stored account object
-          AccountImpl acc = new AccountImpl(new Uid(accounts[i]));
-          acc.activate();
-          //Once recreated the account object
-          //is activated and added to the list.
-         _accounts.put( acc.getName(), acc);
+        if (numberOfAccounts > 0) {
+            for (int i = 0; i < numberOfAccounts; i++) {
+                accounts[i] = os.unpackString();
+                //each stored Uid is re-used to recreate
+                //a stored account object
+                AccountImpl acc = new AccountImpl(new Uid(accounts[i]));
+                acc.activate();
+                //Once recreated the account object
+                //is activated and added to the list.
+                _accounts.put(acc.getName(), acc);
+            }
         }
-      }
-      return true;
-   }
-   catch (Exception e)
-   {
-      return false;
-   }
-} 
+        return true;
+    } catch (Exception e) {
+        return false;
+    }
+}
 ----
 +
 [source,Java]
 ----
-public String type ()
-{
-   return "/StateManager/LockManager/BankServer";
+public String type () {
+    return "/StateManager/LockManager/BankServer";
 }
 ----
 
 ===== Sample Application Source Code
 
-Full source code for the src/com/arjuna/demo/jts/txojbank/BankImpl.java">BankImpl class is included to provide you with a starting point for experimentation.
+Full source code for the `src/com/arjuna/demo/jts/txojbank/BankImpl.java` -> BankImpl class is included to provide you with a starting point for experimentation.
 
 ===== Implementing the BankServer
 
@@ -4380,7 +4205,6 @@ Two ways are provided to build such Bank object according to the fact it's the f
 This depends on the existence or not of the file named "
 ** {blank}
 +
-____
 [source,Java]
 ----
 ...
@@ -4393,10 +4217,8 @@ _bank = new BankImpl(new Uid(stringUid), myOA);
 boolean result =_bank.activate();
 ...
 ----
-____
 ** If the file does not exist, a new BankImpl object is created, then the Uid of the created object is stored in the file named "UidBankFile"
 +
-____
 [source,Java]
 ----
 ...
@@ -4407,12 +4229,11 @@ pfile.println(_bank.get_uid().toString());
 file.close();
 ...
 ----
-____
 * Store the CORBA object reference of the BankImpl object in a file in such way the client can retrieve it from that file.
 
 ===== Sample Application Source Code
 
-Full source code for the src/com/arjuna/demo/jts/txojbank/BankServer.java">BankServer class is included to provide you with a starting point for experimentation.
+Full source code for the `src/com/arjuna/demo/jts/txojbank/BankServer.java` -> `BankServer` class is included to provide you with a starting point for experimentation.
 
 ==== Developing applications with JDBC and {parentProduct} JTS
 
@@ -4435,10 +4256,10 @@ For example:
  TransactionalDriver arjunaJDBC2Driver = new TransactionalDriver(); 
 ----
 
-It can be registered with the JDBC driver manager (java.sql.DriverManager) by adding them to the Java system properties.
-The jdbc.drivers property contains a list of driver class names, separated by colons, that are loaded by the JDBC driver manager when it is initialised, for instance:
+It can be registered with the JDBC driver manager (`java.sql.DriverManager`) by adding them to the Java system properties.
+The `jdbc.drivers` property contains a list of driver class names, separated by colons, that are loaded by the JDBC driver manager when it is initialised, for instance:
 
-[source,Java]
+[source,xml]
 ----
 jdbc.drivers=foo.bar.Driver:mydata.sql.Driver:bar.test.myDriver
 ----
@@ -4448,7 +4269,7 @@ For example, this is where the driver for the Oracle database may be defined.
 When opening a connection to a database it is the DriverManager' s role to choose the most appropriate driver from the previously loaded drivers.
 
 A program can also explicitly load JDBC drivers at any time.
-For example, the my.sql.Driver is loaded with the following statement:
+For example, the `my.sql.Driver` is loaded with the following statement:
 
 [source,Java]
 ----
@@ -4496,8 +4317,7 @@ An example is show below:
 ----
 XADataSource ds = MyXADataSource();
 Hashtable env = new Hashtable();
-String initialCtx = PropertyManager.
-  getProperty("Context.INITIAL_CONTEXT_FACTORY");
+String initialCtx = PropertyManager.getProperty("Context.INITIAL_CONTEXT_FACTORY");
 env.put(Context.INITIAL_CONTEXT_FACTORY, initialCtx);
 initialContext ctx = new InitialContext(env);
 ctx.bind("jdbc/foo", ds);
@@ -4513,8 +4333,7 @@ Properties dbProps = new Properties();
 dbProps.setProperty(TransactionalDriver.userName, "user");
 dbProps.setProperty(TransactionalDriver.password, "password");
 TransactionalDriver arjunaJDBC2Driver = new TransactionalDriver();
-Connection connection = arjunaJDBC2Driver.
-  connect("jdbc:arjuna:jdbc/foo", dbProps);
+Connection connection = arjunaJDBC2Driver.connect("jdbc:arjuna:jdbc/foo", dbProps);
 ----
 +
 The JNDI URL must be pre-pended with jdbc:arjuna: in order for the ArjunaJDBC2Driver to recognise that the DataSource must participate within transactions and be driven accordingly.
@@ -4522,9 +4341,9 @@ The JNDI URL must be pre-pended with jdbc:arjuna: in order for the ArjunaJDBC2Dr
 +
 Many JDBC implementations provide proprietary implementations of XADataSources that provide non-standard extensions to the specification.
 In order to allow the application to remain isolated from the actual JDBC 2.0 implementation it is using and yet continue to be able to use these extensions, {parentProduct} hides the details of these proprietary implementations using dynamic class instantiation.
-In addition, the use of JNDI is not required when using this mechanism because the actual implementation of the XADataSource will be directly instantiated, albeit in a manner which will not tie an application or driver to a specific implementation. {parentProduct} therefore has several classes which are for specific JDBC implementations, and these can be selected at runtime by the application setting the dynamicClass property appropriately:
+In addition, the use of JNDI is not required when using this mechanism because the actual implementation of the XADataSource will be directly instantiated, albeit in a manner which will not tie an application or driver to a specific implementation.
+{parentProduct} therefore has several classes which are for specific JDBC implementations, and these can be selected at runtime by the application setting the dynamicClass property appropriately:
 
-____
 [cols=",",]
 |===
 |_Database Type_ |_Property Name_
@@ -4533,31 +4352,34 @@ ____
 |Oracle 8.1.6 |com.arjuna.ats.internal.jdbc.drivers.oracle_8_1_6
 |SQL Server 2000 |com.arjuna.ats.internal.jdbc.drivers.sqlserver_2_2
 |===
-____
 
-____
 The application code must specify which dynamic class the TransactionalDriver should instantiate when setting up the connection:
-____
 
-Note on properties used by the com.arjuna.ats.jdbc.TransactionalDriver class
+[source,java]
+----
+Properties dbProps = new Properties();
+dbProps.setProperty(TransactionalDriver.userName, "user");
+dbProps.setProperty(TransactionalDriver.password, "password");
+dbProps.setProperty(TransactionalDriver.dynamicClass,
+        "com.arjuna.ats.internal.jdbc.drivers.sequelink_5_0");
+TransactionalDriver arjunaJDBC2Driver = new TransactionalDriver();
+Connection connection = arjunaJDBC2Driver.connect("jdbc:arjuna:
+        sequelink/*:host:port;databaseName=foo",dbProperties*/);
+----
 
-* userName
+Note on properties used by the `com.arjuna.ats.jdbc.TransactionalDriver` class
+
+* _userName_: the user name to use when attempting to connect to the database.
+* _password_: the password to use when attempting to connect to the database.
+* _createDb_: if set to true, the driver will attempt to create the database when it connects.
 +
-: the user name to use when attempting to connect to the database.
-* password
-+
-: the password to use when attempting to connect to the database.
-* createDb
-+
-: if set to true, the driver will attempt to create the database when it connects.
+[NOTE]
 This may not be supported by all JDBC 2.0 implementations.
-* dynamicClass
-+
-: this specifies a class to instantiate to connect to the database, rather than using JNDI.
+* _dynamicClass_: this specifies a class to instantiate to connect to the database, rather than using JNDI.
 
 ===== Using the Connection
 
-Once the connection has been established (for example, using the java.sql.DriverManager.getConnection method), all operations on the connection will be monitored by {parentProduct}.
+Once the connection has been established (for example, using the `java.sql.DriverManager.getConnection` method), all operations on the connection will be monitored by {parentProduct}.
 Once created, the driver and any connection can be used in the same way as any other JDBC driver or connection.
 
 {parentProduct} connections can be used within multiple different transactions simultaneously, i.e., different threads, with different notions of the current transaction, may use the same JDBC connection. {parentProduct} does connection pooling for each transaction within the JDBC connection.
@@ -4580,7 +4402,7 @@ When the Bank object is requested for instance to create an account or to get in
 
 Executing the demonstration consists to launch the folowing program
 
-[source,Java]
+[source,shell]
 ----
 java com.arjuna.demo.jta.jdbcbank.BankClient  -host <hostName>
   -port portNumber  -username <userName>  -dbName <DBName>
@@ -4589,24 +4411,25 @@ java com.arjuna.demo.jta.jdbcbank.BankClient  -host <hostName>
 
 Where:
 
-* hostName - the name of the machine where is located the database
-* userName - the user name used to access the database
-* password - the password used to access to database
-* DBName - the database name
-* clean - the existing relational table will be deleted then created
-* create - a new relational table will be created
+* _hostName_ - the name of the machine where is located the database
+* _userName_ - the user name used to access the database
+* _password_ - the password used to access to database
+* _DBName_ - the database name
+* _clean_ - the existing relational table will be deleted then created
+* _create_ - a new relational table will be created
 
-_Note_ Due to an issue with Oracle, it is possible that an XA exception is thrown when attempting to perform this test (see Release Notes).
+[NOTE]
+Due to an issue with Oracle, it is possible that an XA exception is thrown when attempting to perform this test (see Release Notes).
 If an xa error is returned you can use the following property property _com.arjuna.ats.jdbc.isolationLevel_ set to _TRANSACTION_READ_COMMITTED_ .
 
 This property can be added in previous command as follows:
 
-[source,Java]
+[source,shell]
 ----
 java -Dcom.arjuna.ats.jdbc.isolationLevel=TRANSACTION_READ_COMMITTED
-     com.arjuna.demo.jta.jdbcbank.BankClient  -host <hostName>
-    -port portNumber  -userName <userName>
-    -password <password> -clean|-create
+  com.arjuna.demo.jta.jdbcbank.BankClient  -host <hostName>
+  -port portNumber  -userName <userName>
+  -password <password> -clean|-create
 ----
 
 ===== How JDBC is used
@@ -4615,135 +4438,120 @@ The following Banking application illustrates some methods that use the JDBC API
 In this application, the way to create a jdbc connection is made via an XADataSource obtained with JNDI operations, es explained in the previous trail jdbc introduction The BankClient class instantiates an XADataSource and bind it to a jndi naming in order to be retrieved to create transactional connections.
 This portion of code illustrates how this made against oracle (tested on version 9i).
 A similar code could tested against an other database by providng the appropriate XADataSource implementation.
-Details of the BankClient class can be found in the file src/com/arjuna/demo/jta/jdbcbank/BankClient.java
+Details of the BankClient class can be found in the file `src/com/arjuna/demo/jta/jdbcbank/BankClient.java`
 
 [source,Java]
 ----
-  package com.arjuna.demo.jta.jdbcbank;
+package com.arjuna.demo.jta.jdbcbank;
 
-  import javax.naming.*;
-  import java.util.Hashtable;
+import javax.naming .*;
+        import java.util.Hashtable;
   import oracle.jdbc.xa.client.OracleXADataSource;
   import com.arjuna.ats.jdbc.common.jdbcPropertyManager;
 
-  public class BankClient
-  {
-   .....
-   public static void main(String[] args)
-    {
-      //Provide the apporopriate information to access the database
-      for (int i = 0; i < args.length; i++)
-      {
-          if (args[i].compareTo("-host") == 0)
-              host = args[i + 1]
-          if (args[i].compareTo("-port") == 0)
+public class BankClient {
+    .....
+
+    public static void main(String[] args) {
+        //Provide the apporopriate information to access the database
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].compareTo("-host") == 0)
+                host = args[i + 1]
+            if (args[i].compareTo("-port") == 0)
                 port = args[i + 1];
-          if (args[i].compareTo("-username") == 0)
+            if (args[i].compareTo("-username") == 0)
                 user = args[i + 1];
-          if (args[i].compareTo("-password") == 0)
+            if (args[i].compareTo("-password") == 0)
                 password = args[i + 1];
-          if (args[i].compareTo("-dbName") == 0)
+            if (args[i].compareTo("-dbName") == 0)
                 dbName = args[i + 1];
-          ....
-      }
+            ....
+        }
 
-     try
-     {
-       // create DataSource
-       OracleXADataSource ds = new OracleXADataSource();
-       ds.setURL("jdbc:oracle:thin:@"+host+":"+port+":"+dbName);
+        try {
+            // create DataSource
+            OracleXADataSource ds = new OracleXADataSource();
+            ds.setURL("jdbc:oracle:thin:@" + host + ":" + port + ":" + dbName);
 
-       // now stick it into JNDI
-       Hashtable env = new Hashtable();
-       env.put (Context.INITIAL_CONTEXT_FACTORY,
-       "com.sun.jndi.fscontext.RefFSContextFactory");
-        env.put (Context.PROVIDER_URL, "file:/tmp/JNDI");
-        InitialContext ctx = new InitialContext(env);
-        ctx.rebind("jdbc/DB", ds);
-     }
-     catch (Exception ex)
-     { }
-     //Set the jndi information to be user by the Arjuna JDBC Property Manager
-     jdbcPropertyManager.propertyManager.setProperty("Context.INITIAL_CONTEXT_FACTORY",
-       "com.sun.jndi.fscontext.RefFSContextFactory");
-     jdbcPropertyManager.propertyManager.setProperty("Context.PROVIDER_URL",
-       "file:/tmp/JNDI");
+            // now stick it into JNDI
+            Hashtable env = new Hashtable();
+            env.put(Context.INITIAL_CONTEXT_FACTORY,
+                    "com.sun.jndi.fscontext.RefFSContextFactory");
+            env.put(Context.PROVIDER_URL, "file:/tmp/JNDI");
+            InitialContext ctx = new InitialContext(env);
+            ctx.rebind("jdbc/DB", ds);
+        } catch (Exception ex) {
+        }
+        //Set the jndi information to be user by the Arjuna JDBC Property Manager
+        jdbcPropertyManager.propertyManager.setProperty("Context.INITIAL_CONTEXT_FACTORY",
+                "com.sun.jndi.fscontext.RefFSContextFactory");
+        jdbcPropertyManager.propertyManager.setProperty("Context.PROVIDER_URL",
+                "file:/tmp/JNDI");
 
-     Bank bank = new Bank();
-     BankClient client = new BankClient(bank);
+        Bank bank = new Bank();
+        BankClient client = new BankClient(bank);
 
-   }
-  
+    }
+    
+    ....
 ----
 
 While the BankClient class is responsible to obtain information to access the database, tocreate the XADataSource and bind it to jndi, and also to get order from a user (create_account, debit, transfer, ..), the Bank class is resposnible to create jdbc connections to perform user's requests.
 The Bank class is illustarted below where.
-All methods are not illusrated here but have a similar behavior; they could be found in details in the src/com/arjuna/demo/jta/jdbcbank/Bank.java">Bank.java program.
+All methods are not illusrated here but have a similar behavior; they could be found in details in the `src/com/arjuna/demo/jta/jdbcbank/Bank.java` -> `Bank.java` program.
 Note that for simplicity, much error checking code has been removed.
 
 [source,Java]
 ----
-public Bank()
-{
-  try
-  {
-    DriverManager.registerDriver(new TransactionalDriver());
-    dbProperties = new Properties();
-    dbProperties.put(TransactionalDriver.userName, user);
-    dbProperties.put(TransactionalDriver.password, password);
-    arjunaJDBC2Driver = new TransactionalDriver(); //
-    create_table();
-  }
-   catch (Exception e)
-   {
-   e.printStackTrace();
-   System.exit(0);
-   }
+    public Bank() {
+        try {
+            DriverManager.registerDriver(new TransactionalDriver());
+            dbProperties = new Properties();
+            dbProperties.put(TransactionalDriver.userName, user);
+            dbProperties.put(TransactionalDriver.password, password);
+            arjunaJDBC2Driver = new TransactionalDriver(); //
+            create_table();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
 
-   _accounts = new java.util.Hashtable();
-   reuseConnection = true;
-   }
+        _accounts = new java.util.Hashtable();
+        reuseConnection = true;
+    }
 
-   public void create_account( String _name, float _value )
-   {
-    try
-    {
-      Connection conne = arjunaJDBC2Driver.connect("jdbc:arjuna:jdbc/DB", dbProperties);
-      Statement stmtx = conne.createStatement(); // tx statement
-      stmtx.executeUpdate
-        ("INSERT INTO accounts (name, value)
-          VALUES ('"+_name+"',"+_value+")");
+    public void create_account(String _name, float _value) {
+        try {
+            Connection conne = arjunaJDBC2Driver.connect("jdbc:arjuna:jdbc/DB", dbProperties);
+            Statement stmtx = conne.createStatement(); // tx statement
+            stmtx.executeUpdate
+                    ("INSERT INTO accounts (name, value)
+                            VALUES('"+_name+"', "+_value+")");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-    catch (SQLException e)
-    {
-      e.printStackTrace();
-    }
-   }
 
-  public float get_balance(String _name)
-     throws NotExistingAccount
-  {
-    float theBalance = 0;
-    try
-    {
-      Connection conne = arjunaJDBC2Driver.connect("jdbc:arjuna:jdbc/DB", dbProperties);
-      Statement stmtx = conne.createStatement(); // tx statement
-      ResultSet rs = stmtx.executeQuery
-         ("SELECT value from accounts
-           WHERE name    = '"+_name+"'");
-      while (rs.next()) {
-        theBalance = rs.getFloat("value");
-      }
+    public float get_balance(String _name)
+            throws NotExistingAccount {
+        float theBalance = 0;
+        try {
+            Connection conne = arjunaJDBC2Driver.connect("jdbc:arjuna:jdbc/DB", dbProperties);
+            Statement stmtx = conne.createStatement(); // tx statement
+            ResultSet rs = stmtx.executeQuery
+                    ("SELECT value from accounts
+                            WHERE name = '"+_name+"'");
+            while (rs.next()) {
+                theBalance = rs.getFloat("value");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new NotExistingAccount("The Account requested does not exist");
+        }
+        return theBalance;
     }
-    catch (SQLException e)
-    {
-      e.printStackTrace();
-      throw new NotExistingAccount("The Account requested does not exist");
-    }
-    return theBalance;
-  }
 
- ...
+    ....
 }
 ----
 
@@ -4781,9 +4589,7 @@ To run the Recovery Manager as a Windows service, simply:
 * Type InstallRecoveryManagerService-NT.bat
 
 [NOTE]
-====
 This directory also contains the uninstall script which is ran in the same manner.
-====
 
 To launch the Recovery Manager as a Windows process, simply:
 
@@ -4817,9 +4623,9 @@ This example shows the {parentProduct} recovery manager recovering a Serializabl
 The application consists of four classes.
 Each class is well documented and it is recommended that the provided code is inspected to gain useful insight into some of the nuances of the recovery process.
 
-* The code of the main class that controls the application (src/com/arjuna/demo/recovery/xaresource/TestXAResourceRecovery.java">TestRecoveryModule.java), allows the user to specify a number of options: [-waitForRecovery] [-useExternalRecoveryManager]
-* Programmer-defined support of the Serializable XAResource is only required in the XAResource implementation class src/com/arjuna/demo/recovery/xaresource/ExampleXAResource.java">ExampleXAResource.java
-* Programmer-defined support of the non-Serializable XAResource is required both in the XAResource implementation class src/com/arjuna/demo/recovery/xaresource/NonSerializableExampleXAResource.java">NonSerializableExampleXAResource, and in a class that implements a helper for the {parentProduct} recovery process src/com/arjuna/demo/recovery/xaresource/NonSerializableExampleXAResourceRecovery.java">NonSerializableExampleXAResourceRecovery.java
+* The code of the main class that controls the application (`src/com/arjuna/demo/recovery/xaresource/TestXAResourceRecovery.java` -> `TestRecoveryModule.java`), allows the user to specify a number of options: `[-waitForRecovery] [-useExternalRecoveryManager]`
+* Programmer-defined support of the Serializable XAResource is only required in the XAResource implementation class `src/com/arjuna/demo/recovery/xaresource/ExampleXAResource.java` -> `ExampleXAResource.java`
+* Programmer-defined support of the non-Serializable XAResource is required both in the XAResource implementation class `src/com/arjuna/demo/recovery/xaresource/NonSerializableExampleXAResource.java` -> `NonSerializableExampleXAResource`, and in a class that implements a helper for the {parentProduct} recovery process `src/com/arjuna/demo/recovery/xaresource/NonSerializableExampleXAResourceRecovery.java` -> `NonSerializableExampleXAResourceRecovery.java`
 
 ===== XAResourceRecovery registration
 
@@ -4838,11 +4644,13 @@ The recovery module for the non-Serializable XAResource must be deployed in orde
 If this step was missed out the Serializable XAResource would recover OK but {parentProduct} would have no knowledge of the non-Serializable XAResource and so it could not recover it.
 To register the non-Serializable XAResource XAResourceRecovery module, add an entry to the `jbossts-properties.xml`.
 
-Under the element <properties depends="jts" name="jta">, add:
+Under the element `<properties depends="jts" name="jta">`, add:
 
-____
-<property name="com.arjuna.ats.jta.recovery.XAResourceRecovery1" value= "com.arjuna.demo.recovery.xaresource.NonSerializableExampleXAResourceRecovery"/> <property name="com.arjuna.ats.jta.xaRecoveryNode" value="*"/>
-____
+[source,xml]
+----
+<property name="com.arjuna.ats.jta.recovery.XAResourceRecovery1" value= "com.arjuna.demo.recovery.xaresource.NonSerializableExampleXAResourceRecovery"/>
+<property name="com.arjuna.ats.jta.xaRecoveryNode" value="*"/>
+----
 
 ====== Configure the recovery manager scan period
 
@@ -4864,33 +4672,33 @@ _If you do change the transaction manager type remember to reconfigure the recov
 
 If you are using the ArjunaCore (raw JTA) transaction manager implementation comment out the element in `jbossts-properties.xml` containing the following text:
 
-____
+[source,xml]
+----
 internal.jta.recovery.jts.XARecoveryModule
-____
+----
 
 If you are using the JTS transaction manager implementation comment out the element in `jbossts-properties.xml` containing the following text:
 
-____
+[source,xml]
+----
 internal.jta.recovery.arjunacore.XARecoveryModule
-____
+----
 
 ====== Launching the demo
 
 To launch the Test Recovery Module, execute the following java program
 
 * Open a command prompt
-* cd to the directory <jbossts_install_root>\trail_map
-* Type java com.arjuna.demo.recovery.xaresource.TestXAResourceRecovery
+* cd to the directory `<jbossts_install_root>\trail_map`
+* Type `java com.arjuna.demo.recovery.xaresource.TestXAResourceRecovery`
 * View the output noting the crash during commit.
 * Inspect the current working directory to note that the applications have created several log files which you may like to review.
-* Type java com.arjuna.demo.recovery.xaresource.TestXAResourceRecovery -waitForRecovery
+* Type `java com.arjuna.demo.recovery.xaresource.TestXAResourceRecovery -waitForRecovery`
 * Wait for the two resources to be recovered and committed.
 * Re-review the log files from the working directory, if wanted.
 
 [NOTE]
-====
 As you can see, the Serializable XAResource does not need it's recover() method called as the transaction manager is aware of all the information about this resource.
-====
 
 ====== The Recovery Process and AbstractRecords
 
@@ -4912,20 +4720,15 @@ A set of arguments are provided:
 
 The application consists of three programs
 
-* The code of the main class that control the application (src/com/arjuna/demo/recoverymodule/TestRecoveryModule.java">TestRecoveryModule.java), which consists to give the choice to either commit or abort the transaction and also to generate a crash.
-* The registered participant (src/com/arjuna/demo/recoverymodule/SimpleRecord.java">SimpleRecord.java) has the following behaviour:
+* The code of the main class that control the application (`src/com/arjuna/demo/recoverymodule/TestRecoveryModule.java` -> `TestRecoveryModule.java`), which consists to give the choice to either commit or abort the transaction and also to generate a crash.
+* The registered participant (`src/com/arjuna/demo/recoverymodule/SimpleRecord.java` -> `SimpleRecord.java`) has the following behaviour:
 +
-[source,Java]
-----
-                    - During the prepare phase, it writes a simple message - "I'm prepared" - on the disk such
-                    The message is written in a well known file 
-                    - During the commit phase, it writes another message - "I'm committed" - in the same file
-                    used during prepare 
-                    - If it receives an abort message, it removes from the disk the file used for prepare if any. 
-                    - if a crash has been decided for the test, then it crashes during the commit phase - the file remains
-                    with the message "I'm prepared".
-----
-* A Recovery Module (src/com/arjuna/demo/recoverymodule/SimpleRecoveryModule.java">SimpleRecoveryModule.java) that consists to read the content of the file used to store the status of the participant, to determine that status and print a message indicating if a recovery action is needed or not.
+- During the prepare phase, it writes a simple message - "I'm prepared" - on the disk such message is written in a well known file 
+- During the commit phase, it writes another message - "I'm committed" - in the same file used during prepare
+- If it receives an abort message, it removes from the disk the file used for prepare if any. 
+- if a crash has been decided for the test, then it crashes during the commit phase - the file remains with the message "I'm prepared".
+
+* A Recovery Module (`src/com/arjuna/demo/recoverymodule/SimpleRecoveryModule.java` -> `SimpleRecoveryModule.java`) that consists to read the content of the file used to store the status of the participant, to determine that status and print a message indicating if a recovery action is needed or not.
 
 Using the provided {parentProduct} Recovery Modules ensures that resources are correctly recovered.
 This sample illustrates how to define and register its own module.
@@ -4936,9 +4739,10 @@ It's the responsibility of the module to re-create the appropriate objects using
 The recovery module should now be deployed in order to be called by the Recovery Manager.
 To do so, we just need to add an entry in the `jbossts-properties.xml` by adding a new property as follows:
 
-____
+[source,xml]
+----
 <property name="com.arjuna.ats.arjuna.recovery.recoveryExtension<i>" value="com.arjuna.demo.recoverymodule.SimpleRecoveryModule"/>
-____
+----
 
 Where <i> represent the new occurrence number that follows the last that already exists in the file.
 Once started, the Recovery Manager will automatically load the added Recovery module.
@@ -4947,7 +4751,7 @@ Once started, the Recovery Manager will automatically load the added Recovery mo
 
 In a separate window launch the Recovery Manager, as follows:
 
-[source,Java]
+[source,shell]
 ----
 java com.arjuna.ats.arjuna.recovery.RecoveryManager -test
 ----
@@ -4956,8 +4760,8 @@ java com.arjuna.ats.arjuna.recovery.RecoveryManager -test
 
 To launch the Test Recovery Module, execute the following java program
 
-[source,Java]
+[source,shell]
 ----
 java com.arjuna.demo.recoverymodule.TestRecoveryModule
-        [-commit|-abort] [-crash]
+  [-commit|-abort] [-crash]
 ----
