@@ -59,15 +59,27 @@ The outcome is definitely better than what pandoc is able to produce.
 Unfortunately, also DocBookRx is far from being a perfect migration tool.
 Thus, manual check should be carried out to avoid mistakes.
 
+#### Ruby installation
+
+Before installing DocBookRx, ensure that Ruby 2.7.x is installed on the system. On Fedora 40, execute the following commands:
+
+```
+sudo dnf install rbenv ruby-build-rbenv
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+source ~/.bashrc
+
+rbenv install 2.7.6
+rbenv global 2.7.6
+ruby -v
+```
+
+More details can be found [here](https://developer.fedoraproject.org/start/sw/web-app/rails.html)
+
 #### DocBookRx Installation
 
 Follow instructions [here](https://github.com/asciidoctor/docbookrx?tab=readme-ov-file#installing-the-development-version)
 
-**NOTE**: It seems that DocBookRx is not 100% compatible with Ruby 3.x.
-In fact, I got some errors converting `project/en-US/jts/trailmap.xml`.
-I tried to install Ruby 2.x using RVM, but I bumped into the usual problems with ruby (compatibility and compilation problems, openssl, etc.)
-Probably, going through the usual pain, it is still prossible to install ruby 2.x on Fedora 38+ and use DocBookRx in its most powerful form.
-Unfortunately, I didn't have enough time to try this out.
+**NOTE**: Make sure that Ruby 2.7.6 is in use
 
 To use DocBookRx, go into the folder where you cloned the repo and run:
 ```
