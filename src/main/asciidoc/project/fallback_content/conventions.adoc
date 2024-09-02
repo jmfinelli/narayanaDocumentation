@@ -87,7 +87,7 @@ If the remote machine is _example.com_ and your username on that machine is john
 The `mount -o remount `file-system`` command remounts the named file system.
 For example, to remount the `_/home_ file system`, the command is `mount -o remount /home`. 
 
-To see the version of a currently installed package, use the `rpm -q `package`` command.
+To see the version of a currently installed package, use the `rpm -q package` command.
 It will return a result as follows: `package-version-release`. 
 ____
 
