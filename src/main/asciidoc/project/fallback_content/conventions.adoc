@@ -82,7 +82,7 @@ For example:
 
 ____
 To connect to a remote machine using ssh, type `ssh `username`@`domain.name`` at a shell prompt.
-If the remote machine is _example.com_ and your username on that machine is john, type ``ssh john@example.com``. 
+If the remote machine is _example.com_ and your username on that machine is john, type `ssh john@example.com`.
 
 The `mount -o remount `file-system`` command remounts the named file system.
 For example, to remount the `_/home_ file system`, the command is `mount -o remount /home`. 
