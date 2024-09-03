@@ -91,7 +91,7 @@ To see the version of a currently installed package, use the `rpm -q package` co
 It will return a result as follows: `package-version-release`. 
 ____
 
-Note the words in bold italics above &mdash;username, domain.name, file-system, package, version and release.
+Note the words in bold italics above -username, domain.name, file-system, package, version and release.
 Each word is a placeholder, either for text you enter when issuing a command or for text displayed by the system. 
 
 Aside from standard usage for presenting the title of a work, italics denotes the first use of a new and important term.
