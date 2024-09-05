@@ -57,6 +57,10 @@
                                 <sectanchors>true</sectanchors>
                                 <productSourceDir>${project.basedir}/src/main/asciidoc/product</productSourceDir>
                                 <projectSourceDir>${project.basedir}/src/main/asciidoc/project</projectSourceDir>
+                                <productName>Narayana</productName>
+                                <!-- No sure if the following is correct -->
+                                <parentProduct>Narayana</parentProduct>
+                                <appServer>WildFly Application Server</appServer>
                             </attributes>
                         </configuration>
                     </execution>
