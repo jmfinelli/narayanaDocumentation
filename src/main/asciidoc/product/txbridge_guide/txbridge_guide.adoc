@@ -6,7 +6,7 @@
 :icons: {icons}
 :experimental:
 
-:leveloffset: +2
+:leveloffset: +1
 
 include::{productSourceDir}/txbridge_guide/introduction.adoc[]
 
@@ -18,4 +18,4 @@ include::{productSourceDir}/txbridge_guide/known_limitations.adoc[]
 
 include::{productSourceDir}/txbridge_guide/design_notes.adoc[]
 
-:leveloffset: -2
+:leveloffset: -1

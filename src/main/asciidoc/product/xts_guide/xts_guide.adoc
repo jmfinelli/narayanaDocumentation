@@ -5,7 +5,7 @@
 :icons: {icons}
 :experimental:
 
-:leveloffset: +2
+:leveloffset: +1
 
 include::{productSourceDir}/xts_guide/introduction.adoc[]
 
@@ -21,4 +21,4 @@ include::{productSourceDir}/xts_guide/web_service_transaction_management.adoc[]
 
 include::{productSourceDir}/xts_guide/quickstarts_overview.adoc[]
 
-:leveloffset: -2
+:leveloffset: -1

@@ -4,7 +4,7 @@
 :toc: {toc}
 :icons: {icons}
 
-:leveloffset: +2
+:leveloffset: +1
 
 include::{productSourceDir}/development_guide/transactions.adoc[]
 
@@ -20,4 +20,4 @@ include::{productSourceDir}/development_guide/important_log_messages.adoc[]
 
 include::{productSourceDir}/development_guide/troubleshooting.adoc[]
 
-:leveloffset: -2
+:leveloffset: -1
