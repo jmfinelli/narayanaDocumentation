@@ -51,6 +51,7 @@
                                 <!-- should double check how should be used -->
                                 <source-highlighter>coderay</source-highlighter>
                                 <toc>left</toc>
+                                <toclevel>3</toclevel>
                                 <icons>font</icons>
                                 <!-- should double check how should be used -->
                                 <sectanchors>true</sectanchors>

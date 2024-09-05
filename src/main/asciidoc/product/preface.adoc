@@ -1,7 +1,6 @@
 
 :sectnums!:
 
-[preface]
 = Preface
 
 :leveloffset: +1

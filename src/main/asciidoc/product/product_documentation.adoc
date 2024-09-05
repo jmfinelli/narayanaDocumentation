@@ -1,4 +1,5 @@
 
+:toclevels: {toclevel}
 :leveloffset: +1
 include::{productSourceDir}/book_info.adoc[]
 include::{productSourceDir}/preface.adoc[]
