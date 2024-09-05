@@ -2,7 +2,7 @@
 = Functionality of Narayana supported within Red Hat JBoss EAP
 
 :leveloffset: 1
-include::{sourceDir}/author_group.adoc[]
+include::{projectSourceDir}/author_group.adoc[]
 :leveloffset: 0
 
 

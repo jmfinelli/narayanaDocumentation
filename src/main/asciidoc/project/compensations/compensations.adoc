@@ -3,8 +3,6 @@
 :sectnums:
 :toc: {toc}
 :icons: {icons}
-:experimental:
-:sourcedir: .
 
 == Overview
 

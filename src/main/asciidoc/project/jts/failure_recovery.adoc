@@ -20,13 +20,13 @@ Contents of each file are below.
 .RecoverManager-properties.xml
 [source,xml]
 ----
-include::extras/RecoveryManager-properties.xml[]
+include::{projectSourceDir}/jts/extras/RecoveryManager-properties.xml[]
 ----
 
 .orportability-properties.xml
 [source,xml]
 ----
-include::extras/orportability-properties.xml[]
+include::{projectSourceDir}/jts/extras/orportability-properties.xml[]
 ----
 
 These entries cause instances of the named classes to be loaded.
@@ -93,7 +93,7 @@ See the javadocs and the example `com.arjuna.ats.internal.jdbc.recovery.BasicXAR
 .XAConnectionRecovery implementation
 [source,java]
 ----
-include::extras/XAConnectionRecovery.java[]
+include::{projectSourceDir}/jts/extras/XAConnectionRecovery.java[]
 ----
 
 .Multiple recovery domains and resource-initiated recovery
@@ -175,7 +175,7 @@ It is expressed in hours, with `240` being the default, and `0` meaning never to
 .ExpiryScanner properties
 [source,xml]
 ----
-include::extras/ExpiryScanner-properties.xml[]
+include::{projectSourceDir}/jts/extras/ExpiryScanner-properties.xml[]
 ----
 
 There are two `ExpiryScannner`'s for the assumed complete transactions, because there are different types in the ActionStore.

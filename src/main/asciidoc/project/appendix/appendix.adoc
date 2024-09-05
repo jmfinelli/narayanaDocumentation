@@ -3,19 +3,11 @@
 :sectnums:
 :toc: {toc}
 :icons: {icons}
-:experimental:
-:sourcedir: .
 
-:leveloffset: +2
-
-include::{sourceDir}/object_store_implementations.adoc[]
-
-include::{sourceDir}/core_class_definitions.adoc[]
-
-include::{sourceDir}/idl_definitions.adoc[]
-
-include::{sourceDir}/rts_transaction_statuses.adoc[]
-
-include::{sourceDir}/QANotes5-1.adoc[]
-
-:leveloffset: -2
+:leveloffset: +1
+include::{projectSourceDir}/appendix/object_store_implementations.adoc[]
+include::{projectSourceDir}/appendix/core_class_definitions.adoc[]
+include::{projectSourceDir}/appendix/idl_definitions.adoc[]
+include::{projectSourceDir}/appendix/rts_transaction_statuses.adoc[]
+include::{projectSourceDir}/appendix/QANotes5-1.adoc[]
+:leveloffset: -1

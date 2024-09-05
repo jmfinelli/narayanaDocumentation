@@ -3,15 +3,13 @@
 :sectnums:
 :toc: {toc}
 :icons: {icons}
-:experimental:
-:sourcedir: .
 
-:leveloffset: +2
+:leveloffset: +1
 
-include::{sourceDir}/overview.adoc[]
-include::{sourceDir}/jaxrs.adoc[]
-include::{sourceDir}/non-jaxrs.adoc[]
-include::{sourceDir}/examples.adoc[]
-include::{sourceDir}/integration.adoc[]
+include::{projectSourceDir}/lra/overview.adoc[]
+include::{projectSourceDir}/lra/jaxrs.adoc[]
+include::{projectSourceDir}/lra/non-jaxrs.adoc[]
+include::{projectSourceDir}/lra/examples.adoc[]
+include::{projectSourceDir}/lra/integration.adoc[]
 
-:leveloffset: -2
+:leveloffset: -1

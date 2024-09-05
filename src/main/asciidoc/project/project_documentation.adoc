@@ -1,49 +1,16 @@
 
-:leveloffset: 1
-include::{sourceDir}/book_info.adoc[]
-:leveloffset: 0
-
-:leveloffset: 1
-include::{sourceDir}/preface.adoc[]
-:leveloffset: 0
-
-:leveloffset: 1
-include::{sourceDir}/core/core.adoc[]
-:leveloffset: 0
-
-:leveloffset: 1
-include::{sourceDir}/jta/jta.adoc[]
-:leveloffset: 0
-
-:leveloffset: 1
-include::{sourceDir}/jts/jts.adoc[]
-:leveloffset: 0
-
-:leveloffset: 1
-include::{sourceDir}/xts/xts.adoc[]
-:leveloffset: 0
-
-:leveloffset: 1
-include::{sourceDir}/lra/lra.adoc[]
-:leveloffset: 0
-
-:leveloffset: 1
-include::{sourceDir}/rts/rts.adoc[]
-:leveloffset: 0
-
-:leveloffset: 1
-include::{sourceDir}/stm/stm.adoc[]
-:leveloffset: 0
-
-:leveloffset: 1
-include::{sourceDir}/compensations/compensations.adoc[]
-:leveloffset: 0
-
-:leveloffset: 1
-include::{sourceDir}/osgi/osgi.adoc[]
-:leveloffset: 0
-
-:leveloffset: 1
-include::{sourceDir}/appendix/appendix.adoc[]
-:leveloffset: 0
+:leveloffset: +1
+include::{projectSourceDir}/book_info.adoc[]
+include::{projectSourceDir}/preface.adoc[]
+include::{projectSourceDir}/core/core.adoc[]
+include::{projectSourceDir}/jta/jta.adoc[]
+include::{projectSourceDir}/jts/jts.adoc[]
+include::{projectSourceDir}/xts/xts.adoc[]
+include::{projectSourceDir}/lra/lra.adoc[]
+include::{projectSourceDir}/rts/rts.adoc[]
+include::{projectSourceDir}/stm/stm.adoc[]
+include::{projectSourceDir}/compensations/compensations.adoc[]
+include::{projectSourceDir}/osgi/osgi.adoc[]
+include::{projectSourceDir}/appendix/appendix.adoc[]
+:leveloffset: -1
 

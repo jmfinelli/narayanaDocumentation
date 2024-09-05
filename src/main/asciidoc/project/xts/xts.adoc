@@ -3,14 +3,9 @@
 :sectnums:
 :toc: {toc}
 :icons: {icons}
-:experimental:
-:sourcedir: .
 
 :leveloffset: +1
-include::introduction.adoc[]
-
-include::transactions_overview.adoc[]
-
-include::protocols_overview.adoc[]
-
-:leveloffset: -2
+include::{projectSourceDir}/xts/introduction.adoc[]
+include::{projectSourceDir}/xts/transactions_overview.adoc[]
+include::{projectSourceDir}/xts/protocols_overview.adoc[]
+:leveloffset: -1
