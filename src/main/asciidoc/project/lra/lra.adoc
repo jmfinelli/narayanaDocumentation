@@ -1,17 +1,17 @@
 = Long Running Actions (LRA)
 :doctype: book
 :sectnums:
-:toc: left
-:icons: font
+:toc: {toc}
+:icons: {icons}
 :experimental:
 :sourcedir: .
 
 :leveloffset: +2
 
-include::overview.adoc[]
-include::jaxrs.adoc[]
-include::non-jaxrs.adoc[]
-include::examples.adoc[]
-include::integration.adoc[]
+include::{sourceDir}/overview.adoc[]
+include::{sourceDir}/jaxrs.adoc[]
+include::{sourceDir}/non-jaxrs.adoc[]
+include::{sourceDir}/examples.adoc[]
+include::{sourceDir}/integration.adoc[]
 
 :leveloffset: -2

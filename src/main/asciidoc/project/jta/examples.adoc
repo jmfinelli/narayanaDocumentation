@@ -2,7 +2,7 @@
 
 == JDBC example
 
-This simplified example assumes that you are using the transactional JDBC driver provided with \{parentProduct}.
+This simplified example assumes that you are using the transactional JDBC driver provided with {parentProduct}.
 For details about how to configure and use this driver see the previous Chapter.
 // Previous Chpater link?
 

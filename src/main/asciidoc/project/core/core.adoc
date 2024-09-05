@@ -1,10 +1,9 @@
 = Narayana Core
 :doctype: book
 :sectnums:
-:toc: left
-:icons: font
+:toc: {toc}
+:icons: {icons}
 :experimental:
-:sourcedir: .
 
 :leveloffset: 2
 include::overview.adoc[]

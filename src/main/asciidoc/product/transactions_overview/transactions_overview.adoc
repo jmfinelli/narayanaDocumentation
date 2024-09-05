@@ -1,10 +1,8 @@
 = Transactions Overview
 :doctype: book
 :sectnums:
-:toc: left
-:icons: font
-:experimental:
-:sourcedir: .
+:toc: {toc}
+:icons: {icons}
 
 == What is a transaction?
 

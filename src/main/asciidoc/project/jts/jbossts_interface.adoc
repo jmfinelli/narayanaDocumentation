@@ -41,7 +41,7 @@ However, if a resource is derived from `ArjunaOTS::ArjunaSubtranAwareResource`, 
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/ArjunaSubtranAwareResource.java[]
+include::extras/ArjunaSubtranAwareResource.java[]
 ----
 ====
 
@@ -65,7 +65,7 @@ The {parentProduct} interface `ArjunaOTS::OTSAbstractRecord` gives you this leve
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/OTSAbstractRecord.java[]
+include::extras/OTSAbstractRecord.java[]
 ----
 ====
 
@@ -105,7 +105,7 @@ It is located in the `com.arjuna.ats.jts.extensions.ArjunaOTS` package.
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/AtomicTransaction.java[]
+include::extras/AtomicTransaction.java[]
 ----
 ====
 
@@ -158,7 +158,7 @@ The transaction is implicitly associated with the transactional object because i
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/ExplicitInterposition.java[]
+include::extras/ExplicitInterposition.java[]
 ----
 ====
 
@@ -170,7 +170,7 @@ For example, consider the class Example which is derived from LockManager and ha
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/ExplicitInterposition_example.java[]
+include::extras/ExplicitInterposition_example.java[]
 ----
 ====
 

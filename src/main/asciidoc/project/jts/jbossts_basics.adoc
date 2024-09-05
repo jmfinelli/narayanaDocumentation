@@ -109,7 +109,7 @@ However, if newly created threads need to automatically inherit the transaction 
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/OTS_Thread.java[]
+include::extras/OTS_Thread.java[]
 ----
 ====
 

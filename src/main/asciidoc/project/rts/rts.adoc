@@ -1,8 +1,8 @@
 = RTS
 :doctype: book
 :sectnums:
-:toc: left
-:icons: font
+:toc: {toc}
+:icons: {icons}
 :experimental:
 :sourcedir: .
 

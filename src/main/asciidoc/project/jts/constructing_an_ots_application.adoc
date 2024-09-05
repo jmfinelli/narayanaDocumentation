@@ -43,7 +43,7 @@ Otherwise, you need to pass the transaction contexts as parameters to the releva
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/indirect_and_implicit.java[]
+include::extras/indirect_and_implicit.java[]
 ----
 ====
 
@@ -57,7 +57,7 @@ The `report_heuristics` argument is set to `false`, so the Transaction Service m
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/indirect_and_implicit_close.java[]
+include::extras/indirect_and_implicit_close.java[]
 ----
 ====
 
@@ -67,7 +67,7 @@ include::{sourcedir}/extras/indirect_and_implicit_close.java[]
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/direct_and_explicit.java[]
+include::extras/direct_and_explicit.java[]
 ----
 ====
 
@@ -82,7 +82,7 @@ It is declared in the OMG IDL of the interface.
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/direct_and_explicit_client_requests.java[]
+include::extras/direct_and_explicit_client_requests.java[]
 ----
 ====
 
@@ -92,7 +92,7 @@ The `report_heuristics` argument is set to `false`, so the Transaction Service m
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/direct_and_explicit_commit.java[]
+include::extras/direct_and_explicit_commit.java[]
 ----
 ====
 
@@ -153,7 +153,7 @@ This approach allows the server to apply integrity constraints which apply to th
 ====
 [source,Java]
 ----
-include::{sourcedir}/extras/transactional_object.java[]
+include::extras/transactional_object.java[]
 ----
 ====
 

@@ -30,7 +30,7 @@ Windows:
 XTS integrates WS-AT transactions with JTA.
 To invoke a web service inside a WS-AT transaction, simply start a new JTA transaction and invoke the web service.
 By default, XTS will create a WS-AT context and pass it with your request.
-See our quickstarts for an example: <<ref_wsatmultiservice>> and <<ref_wsatmultihop>>
+See our quickstarts for an example: xref:quickstarts_overview.adoc#ref_wsatmultiservice[WS-AT Multi-Service] and xref:quickstarts_overview.adoc#ref_wsatmultihop[WS-AT Multi-Hop]
 
 [[ref_createwsatservice]]
 === Creating Transactional Web Services

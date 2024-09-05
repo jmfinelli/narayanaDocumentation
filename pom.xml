@@ -48,10 +48,14 @@
                                 </resource>
                             </resources>
                             <attributes>
+                                <!-- should double check how should be used -->
                                 <source-highlighter>coderay</source-highlighter>
                                 <toc>left</toc>
                                 <icons>font</icons>
+                                <!-- should double check how should be used -->
                                 <sectanchors>true</sectanchors>
+                                <productSourceDir>${project.basedir}/src/main/asciidoc/product</productSourceDir>
+                                <projectSourceDir>${project.basedir}/src/main/asciidoc/project</projectSourceDir>
                             </attributes>
                         </configuration>
                     </execution>

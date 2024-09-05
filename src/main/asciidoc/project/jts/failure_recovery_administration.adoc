@@ -111,7 +111,7 @@ The default Recovery Extension settings are:
 
 [source,xml]
 ----
-include::{sourcedir}/extras/default_recovery_extension_settings.xml[]
+include::extras/default_recovery_extension_settings.xml[]
 ----
 
 == Expired Entry Removal
@@ -139,5 +139,5 @@ The Expiry Scanner properties for these are:
 
 [source,xml]
 ----
-include::{sourcedir}/extras/expiry_scanner_properties.xml[]
+include::extras/expiry_scanner_properties.xml[]
 ----

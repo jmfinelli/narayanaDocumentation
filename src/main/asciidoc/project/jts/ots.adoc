@@ -211,7 +211,7 @@ If you use the factory, and need to set the current context for a thread to the 
 ====
 [source,C]
 ----
-include::{sourcedir}/extras/terminator_coordinator_control.java[]
+include::extras/terminator_coordinator_control.java[]
 ----
 ====
 
@@ -227,7 +227,7 @@ Transactions created using `Current` do not alter a thread’s current transacti
 ====
 [source,C]
 ----
-include::{sourcedir}/extras/Current.java[]
+include::extras/Current.java[]
 ----
 ====
 
@@ -306,7 +306,7 @@ This example is considerably simpler, because the application only needs to star
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/simple_transactional_client_2.java[]
+include::extras/simple_transactional_client_2.java[]
 ----
 ====
 
@@ -316,7 +316,7 @@ The last example illustrates the flexibility of OTS by using both direct and ind
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/simple_transactional_client_3.java[]
+include::extras/simple_transactional_client_3.java[]
 ----
 ====
 
@@ -534,7 +534,7 @@ The Transaction Service uses a two-phase commit protocol to complete a top-level
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/completing_top_level_transaction.java[]
+include::extras/completing_top_level_transaction.java[]
 ----
 ====
 
@@ -605,7 +605,7 @@ Recoverable objects that need to participate within a nested transaction may sup
 ====
 [source,C]
 ----
-include::{sourcedir}/extras/SubtransactionAwareResource.java[]
+include::extras/SubtransactionAwareResource.java[]
 ----
 ====
 
@@ -660,7 +660,7 @@ Each object supporting the `Synchronization` interface is associated with a sing
 ====
 [source,C]
 ----
-include::{sourcedir}/extras/synchronization.java[]
+include::extras/synchronization.java[]
 ----
 ====
 
@@ -871,7 +871,7 @@ Each transaction has an instance of this class associated with it, and you can i
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/CheckedAction-implementation.java[]
+include::extras/CheckedAction-implementation.java[]
 ----
 ====
 

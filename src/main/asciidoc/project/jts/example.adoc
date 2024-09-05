@@ -16,7 +16,7 @@ This method is used in the DemoClient program.
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/example-idl-interface.java[]
+include::extras/example-idl-interface.java[]
 ----
 ====
 
@@ -36,7 +36,7 @@ Therefore, the `prepare` or `commit` methods should never be invoked, but the `c
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/example-DemoResource.java[]
+include::extras/example-DemoResource.java[]
 ----
 ====
 
@@ -56,7 +56,7 @@ When the transaction terminates, the resource receives requests to commit or rol
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/transactional-implementation.java[]
+include::extras/transactional-implementation.java[]
 ----
 ====
 
@@ -83,7 +83,7 @@ Finally, line 25 places the server process into a state where it can begin to ac
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/DemoServer.java[]
+include::extras/DemoServer.java[]
 ----
 ====
 
@@ -112,7 +112,7 @@ Once we have a reference to this servant object, we can start a transaction (lin
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/DemoClient.java[]
+include::extras/DemoClient.java[]
 ----
 ====
 

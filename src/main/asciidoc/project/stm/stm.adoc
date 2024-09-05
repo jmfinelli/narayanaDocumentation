@@ -1,8 +1,8 @@
 = STM
 :doctype: book
 :sectnums:
-:toc: left
-:icons: font
+:toc: {toc}
+:icons: {icons}
 :experimental:
 :sourcedir: .
 
@@ -118,7 +118,7 @@ And class:
 
 [source]
 ----
-public class ExampleInteger implements Atomic {   
+public class ExampleInteger implements Atomic {
    @ReadLock
    public int get () throws Exception {
        return state;
@@ -153,7 +153,7 @@ Now we have a transactional class, by virtue of its dependency on the Atomic int
 [source, java]
 ----
 Container<Atomic> theContainer = new Container<Atomic>();
-ExampleInteger basic = new ExampleInteger();       
+ExampleInteger basic = new ExampleInteger();
 Atomic obj = theContainer.create(basic);
 AtomicAction a = new AtomicAction();
 
@@ -161,19 +161,19 @@ a.begin();
 
 obj.set(1234);
 
-a.commit();     
+a.commit();
 
 if (obj.get() == 1234)
    System.out.println("State changed ok!");
 else
-   System.out.println("State not changed!");                
-a = new AtomicAction();        
+   System.out.println("State not changed!");
+a = new AtomicAction();
 
-a.begin();        
+a.begin();
 
-obj.change(1);                
+obj.change(1);
 
-a.abort();        
+a.abort();
 
 if (obj.get() == 1234)
    System.out.println("State reverted to 1234!");
@@ -447,7 +447,7 @@ public class DummyImple implements Dummy {
         @ReadLock
         public boolean getBoolean () {
             return _isNotState;
-        }                
+        }
 
         @WriteLock
         public void setBoolean (boolean value) {
@@ -575,7 +575,7 @@ Now let's look at the implementation class:
 public class MyExample implements Sample {
         public MyExample () {
             this(0);
-        }        
+        }
 
         public MyExample (int init) {
             _isState = init;

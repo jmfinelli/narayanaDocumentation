@@ -15,7 +15,7 @@ Two invocations of getInstance made with the same unique name, within the same J
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/ORB.java[]
+include::extras/ORB.java[]
 ----
 ====
 
@@ -50,7 +50,7 @@ To create a `ChildOA` instance use the createPOA method on the `RootOA`.
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/OA.java[]
+include::extras/OA.java[]
 ----
 ====
 
@@ -81,7 +81,7 @@ Application programs can inherit from either `com.arjuna.orbportability.orb.Attr
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/Attribute.java[]
+include::extras/Attribute.java[]
 ----
 ====
 
@@ -100,7 +100,7 @@ When the ORB and OA are being shut down (using `shutdown/destroy` ), each regist
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/Shutdown.java[]
+include::extras/Shutdown.java[]
 ----
 ====
 
@@ -168,7 +168,7 @@ The implementation of this class takes care of any ORB specific locations mechan
 ====
 [source,java]
 ----
-include::{sourcedir}/extras/Services.java[]
+include::extras/Services.java[]
 ----
 ====
 

@@ -1,49 +1,49 @@
 
 :leveloffset: 1
-include::project/book_info.adoc[]
+include::{sourceDir}/book_info.adoc[]
 :leveloffset: 0
 
 :leveloffset: 1
-include::project/preface.adoc[]
+include::{sourceDir}/preface.adoc[]
 :leveloffset: 0
 
 :leveloffset: 1
-include::project/core/core.adoc[]
+include::{sourceDir}/core/core.adoc[]
 :leveloffset: 0
 
 :leveloffset: 1
-include::project/jta/jta.adoc[]
+include::{sourceDir}/jta/jta.adoc[]
 :leveloffset: 0
 
 :leveloffset: 1
-include::project/jts/jts.adoc[]
+include::{sourceDir}/jts/jts.adoc[]
 :leveloffset: 0
 
 :leveloffset: 1
-include::project/xts/xts.adoc[]
+include::{sourceDir}/xts/xts.adoc[]
 :leveloffset: 0
 
 :leveloffset: 1
-include::project/lra/lra.adoc[]
+include::{sourceDir}/lra/lra.adoc[]
 :leveloffset: 0
 
 :leveloffset: 1
-include::project/rts/rts.adoc[]
+include::{sourceDir}/rts/rts.adoc[]
 :leveloffset: 0
 
 :leveloffset: 1
-include::project/stm/stm.adoc[]
+include::{sourceDir}/stm/stm.adoc[]
 :leveloffset: 0
 
 :leveloffset: 1
-include::project/compensations/compensations.adoc[]
+include::{sourceDir}/compensations/compensations.adoc[]
 :leveloffset: 0
 
 :leveloffset: 1
-include::project/osgi/osgi.adoc[]
+include::{sourceDir}/osgi/osgi.adoc[]
 :leveloffset: 0
 
 :leveloffset: 1
-include::project/appendix/appendix.adoc[]
+include::{sourceDir}/appendix/appendix.adoc[]
 :leveloffset: 0
 

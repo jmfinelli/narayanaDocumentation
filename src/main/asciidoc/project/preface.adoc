@@ -5,11 +5,11 @@
 = Preface
 
 :leveloffset: 2
-include::fallback_content/conventions.adoc[]
+include::{sourceDir}/fallback_content/conventions.adoc[]
 :leveloffset: 0
 
 :leveloffset: 2
-include::fallback_content/feedback.adoc[]
+include::{sourceDir}/fallback_content/feedback.adoc[]
 :leveloffset: 0
 
 :sectnums:
