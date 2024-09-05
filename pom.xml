@@ -39,11 +39,11 @@
                             <outputDirectory>${project.build.directory}/html</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/asciidoc/project/images</directory>
+                                    <directory>src/main/asciidoc/project/images</directory>
                                     <targetPath>project/images</targetPath>
                                 </resource>
                                 <resource>
-                                    <directory>src/asciidoc/product/images</directory>
+                                    <directory>src/main/asciidoc/product/images</directory>
                                     <targetPath>product/images</targetPath>
                                 </resource>
                             </resources>
@@ -51,7 +51,7 @@
                                 <!-- should double check how should be used -->
                                 <source-highlighter>coderay</source-highlighter>
                                 <toc>left</toc>
-                                <toclevel>3</toclevel>
+                                <toclevel>2</toclevel>
                                 <icons>font</icons>
                                 <!-- should double check how should be used -->
                                 <sectanchors>true</sectanchors>
