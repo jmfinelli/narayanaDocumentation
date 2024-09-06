@@ -1,6 +1,6 @@
 # narayanaDocumentation
 
-This repo is a space to migrate the Narayana documentation from DocBook to AsciiDoc.
+This repository contains the documentation for the various projects within Narayana and the product specific enhancements.
 
 This Maven project uses the AsciiDoctor Maven plugin to build an HTML website.
 Use the following command to build the website:
@@ -178,8 +178,3 @@ I used a RegEx pattern to correct that.
 * DocBookRx is definitely the best of the two software: use it as the golden standard
 * Skim through the content of both files (while comparing): some parts could be missed by one (or both) software
 
-## TODO
-
-* Fix the JTS page (`jts.adoc`): sections are not identified correctly (i.e. numbered correctly)
-* Complete JTS
-* Complete the other modules (which are way less complicated than JTS)
