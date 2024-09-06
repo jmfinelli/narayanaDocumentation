@@ -1,6 +1,6 @@
 
 = Introduction to the OTS
-:imagesdir: {projectSourceDir}/images
+:imagesdir: images
 
 Basic {parentProduct} programming involves using the OTS interfaces provided in the `CosTransactions` module, which is specified in `CosTransactions.idl`.
 This chapter is based on the `OTS Specification1`, specifically with the aspects of OTS that are valuable for developing OTS applications using {parentProduct}.

@@ -1,6 +1,6 @@
 
 = Overview
-:imagesdir: {projectSourceDir}/images
+:imagesdir: images
 
 A transaction is a unit of work that encapsulates multiple database actions such that either all the encapsulated actions fail or all succeed.
 

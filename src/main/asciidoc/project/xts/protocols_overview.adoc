@@ -1,6 +1,6 @@
 
 = Overview of Protocols Used by XTS
-:imagesdir: {projectSourceDir}/images
+:imagesdir: images
 
 This section discusses fundamental concepts associated with the WS-Coordination, WS-Atomic Transaction and WS-Business Activity protocols, as defined in each protocol's specification.
 Foundational information about these protocols is important to understanding the remaining material covered in this guide.

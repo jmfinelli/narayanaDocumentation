@@ -1,6 +1,6 @@
 
 = Trail map
-:imagesdir: {projectSourceDir}/images
+:imagesdir: images
 
 == Introduction
 

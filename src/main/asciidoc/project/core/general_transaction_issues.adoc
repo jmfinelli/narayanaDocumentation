@@ -1,6 +1,6 @@
 
 = Advanced transaction issues with ArjunaCore
-:imagesdir: {projectSourceDir}/images
+:imagesdir: images
 
 Atomic actions (transactions) can be used by both application programmers and class developers.
 Thus, entire operations (or parts of operations) can be made atomic as required by the semantics of a particular operation.

@@ -1,6 +1,6 @@
 
 = {parentProduct} Basics
-:imagesdir: {projectSourceDir}/images
+:imagesdir: images
 
 == Introduction
 

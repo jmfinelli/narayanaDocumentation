@@ -1,6 +1,6 @@
 
 = Quick Start to JTS/OTS
-:imagesdir: {projectSourceDir}/images
+:imagesdir: images
 
 == Introduction
 

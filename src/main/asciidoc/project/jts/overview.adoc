@@ -1,6 +1,6 @@
 
 = Transaction Processing Overview
-:imagesdir: {projectSourceDir}/images
+:imagesdir: images
 
 == Defining a transaction
 

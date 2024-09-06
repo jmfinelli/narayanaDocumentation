@@ -1,6 +1,6 @@
 
 = Transactions Overview
-:imagesdir: {projectSourceDir}/images
+:imagesdir: images
 
 [NOTE]
 ====
